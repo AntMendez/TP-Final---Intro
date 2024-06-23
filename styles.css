@@ -1,3 +1,15 @@
 body {
 	background-color: lightslategrey;
 }
+.titulo {
+	text-align: center;
+	background-color: deepskyblue;
+	text-transform: uppercase;
+}
+.book_type {
+	background-color: transparent;
+	border: none;
+}
+.temas {
+	text-align: right;
+}
