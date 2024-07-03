@@ -10,6 +10,16 @@ body {
 	background-color: transparent;
 	border: none;
 }
-.temas {
-	text-align: right;
+#crear{
+	margin-left: 75em;
+}
+footer {
+	text-align: center;
+}
+ul {
+	list-style: none;
+}
+li {
+	display: inline-block;
+	width: 33%;
 }
