@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Nuevo Libro</title>
+</head>
+<body>
+
+	<h1>Publicar nuevo libro</h1>
+
+	<form onsubmit="crear_libro(event)">
+		<p>Nombre: <br><input type="text" name="nombre" required></p>
+		<p>Autor: <br><input type="text" name="autor" required></p>
+		<p>Pdf: <br><input type="text" name="pdf" required></p>
+		<p>Imagenes: <br><input type="text" name="img" required></p>
+		<p>Descripcion: <br><input type="text" name="descripcion" required></p>
+		<p>Categorias: <br><input type="text" name="categoria" required></p>
+		<button type="submit">Enviar</button>
+	</form>
+
+	<script>
+		function handle_response(data){
+			console.log(data)
+			console.log(data.success)
+			if (data.success){
+				window.location.href = `http://127.0.0.1:5000/libros`
+			}else {
+				alert("Error")
+			}
+		}
+		function crear_libro(event) {
+			event.preventDefault()
+			const formData = new FormData(event.target)
+			
+			const nombre = formData.get('nombre')
+			const autor = formData.get('autor')
+			const pdf = formData.get('pdf')
+			const img = formData.get('img')
+			const descripcion = formData.get('descripcion')
+			const categoria = formData.get('categoria')
+			
+
+			fetch("http://127.0.0.1:5000/libros", {
+				method: "POST",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					nombre:nombre,
+					autor:autor,
+					pdf:pdf,
+					img:img,
+					descripcion:descripcion,
+					categoria:categoria,
+					})												
+				})
+			
+			.then((res)=>res.json())
+			.then(handle_response)
+			.catch((error)=> console.log("ERROR",error))
+		}
+	</script>
+
+</body>
+</html>
