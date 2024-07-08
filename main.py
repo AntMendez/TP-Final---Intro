@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from flask import Flask, redirect, url_for, request, render_template, jsonify
 app = Flask(__name__, static_url_path='/templates')
 from models import db, Libro, Puntuacion, Comentario
-from sqlalchemy import update
+
 
 
 app = Flask(__name__)
@@ -23,14 +23,15 @@ def editar_libro(id_libro):
         pdf = data.get('pdf')
         descripcion = data.get('descripcion')
         categoria = data.get('categoria')
-
-        libro = Libro.query.filter_by(id=id_libro).first()
+        
+        
+        libro = Libro.query.filter_by(id = id_libro).first()
         libro.nombre=nombre
         libro.autor=autor
-        libro.img= img
+        libro.img=img
         libro.pdf=pdf
         libro.descripcion=descripcion
-        libro.categoria= categoria
+        libro.categoria=categoria
         db.session.commit()
 
         return jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'categoria':libro.categoria} }),201
@@ -56,6 +57,27 @@ def borrar_libro(id_libro):
 def hello_world():
     return render_template('index.html')
 
+@app.route('/comentarios/<id_libro>')
+def get_comentarios_by_id(id_libro):
+    try:
+        comentarios =[]
+        query_comentarios = Comentario.query.filter_by(id_libro=id_libro)
+        print(query_comentarios)
+        for comentario in query_comentarios:
+            comentario_data = {
+                'id': comentario.id,
+                'id_libro':comentario.id_libro,
+                'comentario': comentario.comentarios
+                }
+            comentarios.append(comentario_data)
+        return jsonify({'comentarios':comentarios})
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+            
+
 @app.route('/libros/<id_libro>')
 def get_libro_by_id(id_libro):
     try:
@@ -67,14 +89,45 @@ def get_libro_by_id(id_libro):
             'img': libro.img,
             'pdf': libro.pdf,
             'descripcion': libro.descripcion,
-            'categoria': libro.categoria
+            'categoria': libro.categoria,
         }
 
         midle=""
         nombre=str(libro_data['nombre'])
         midle+= f"<p>{nombre}<a href='{libro_data['pdf']}'><img src='{libro_data['img']}' width='100'></a></p>"
         midle+= f"<button onclick='eliminar_libro({libro_data['id']})'>Eliminar</button>"
+        comentarios="""<br> <button onclick="get_comentarios(event)">Cargar comentarios</button>
+                        <ul id='lista_comentarios'>Lista de comentarios</ul>
+            <script>
+                function handle_response(data){
+                    if (!data){
+                        alert('Error')
+                        /*window.location.href = `http://127.0.0.1:5000/libros`*/
+                    }else{
+                        const ul = document.getElementById('lista_comentarios')
+                        var comentarios_json = data
+                        for (var i = 0; i < data.comentarios.length; i++){
+                            console.log(data.comentarios[i].comentario)
+                            const texto = data.comentarios[i].comentario
+                            console.log(texto)
+                            const li = document.createElement('li')
+                            li.innerHTML=texto
+                            ul.appendChild(li)
+                            }
+                        }
+                    }
+                function get_comentarios(event){
+                    event.preventDefault()
+                    fetch('http://127.0.0.1:5000/comentarios/"""+id_libro+"""')
+                    .then((res)=>res.json())
+                    .then(handle_response)
+                    .catch((error)=> console.log('ERROR',error))
 
+                    
+                }
+            </script>
+                """
+        midle+= comentarios
         # return jsonify(libro_data)
         return midle
     except Exception as error:
@@ -139,7 +192,7 @@ def add_libros():
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-# curl -v -X PUT 'http://localhost:5000/libros/27'  '{
+# curl -v -X PUT 'http://localhost:5000/libros/5'  '{
 #     "nombre": "Diego",
 #     "autor": 27,
 #     "img": 'img_1',
