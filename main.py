@@ -102,7 +102,20 @@ def get_puntuaciones_by_id(id_libro):
         return jsonify({'message': 'Internal server error'}), 500
 
 
-
+@app.route('/puntaciones/<id_libro>',methods=['POST'])
+def agregar_puntuacion_by_id(id_libro):
+    try:
+        puntuacion_data = request.json
+        puntuacion = puntuacion_data.get('puntuacion')
+        nueva_puntuacion = Puntuacion(id_libro=id_libro,puntuacion=puntuacion)
+        db.session.add(nueva_puntuacion)
+        db.session.commit()
+        
+        return jsonify({'puntuacion':nueva_puntuacion.puntuacion}),201
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+    
 @app.route('/libros/<id_libro>')
 def get_libro_by_id(id_libro):
     try:
