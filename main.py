@@ -75,7 +75,18 @@ def get_comentarios_by_id(id_libro):
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-
+@app.route('/comentarios/<id_libro>',methods=['POST'])
+def agregar_comentarios(id_libro):
+    try:
+        data= request.json   
+        comentario=data.get('comentario')   
+        nuevo_comentario=Comentario(id_libro=id_libro, comentario=comentario)
+        db.session.add(nuevo_comentario)
+        db.session.commit()
+        return jsonify({'comentario':nuevo_comentario.comentarios})
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
             
 
 @app.route('/libros/<id_libro>')
