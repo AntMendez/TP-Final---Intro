@@ -88,6 +88,20 @@ def agregar_comentarios(id_libro):
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
             
+@app.route('/puntaciones/<id_libro>')
+def get_puntuaciones_by_id(id_libro):
+    try:
+        puntuacion_promedio=0
+        puntuaciones = Puntuacion.query.filter_by(id_libro=id_libro)
+        for puntuacion in puntuaciones:
+            puntuacion_promedio+= puntuacion.puntuacion
+        puntuacion_promedio = str(puntuacion_promedio/puntuaciones.length)[:3] #un digito con un decimal
+        return jsonify({'puntuacion promedio':puntuacion_promedio,'cantidad puntuaciones': puntuaciones.length})
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
 
 @app.route('/libros/<id_libro>')
 def get_libro_by_id(id_libro):
