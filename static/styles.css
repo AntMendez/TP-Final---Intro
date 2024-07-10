@@ -1,5 +1,5 @@
 body {
-	background-color: lightslategrey;
+	background-color: lightgrey;
 }
 .titulo {
 	text-align: center;
@@ -13,13 +13,84 @@ body {
 #crear{
 	margin-left: 75em;
 }
-footer {
-	text-align: center;
+#crear:hover{
+	cursor: pointer;
 }
 ul {
 	list-style: none;
+	background-color: lightsalmon;
 }
 li {
 	display: inline-block;
 	width: 33%;
+}
+#eliminar{
+	background-color: red;
+	color: white;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+}
+#eliminar:hover{
+	cursor: pointer;
+}
+#comentario{
+	background-color: white;
+	height: 35px;
+	font-weight: bolder;
+}
+#comentario:hover{
+	cursor: pointer;
+}
+.lista_temas{
+	font-weight: bolder;	
+}
+#accion:hover{
+	color: white;
+	cursor: pointer;
+}
+#ficcion:hover{
+	color: white;
+	cursor: pointer;
+}
+#fantasia:hover{
+	color: white;
+	cursor: pointer;
+}
+#policial:hover{
+	color: white;
+	cursor: pointer;
+}
+#romance:hover{
+	color: white;
+	cursor: pointer;
+}
+#terror:hover{
+	color: white;
+	cursor: pointer;
+}
+#añadir{
+	color: white;
+	background-color: green;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+}
+#añadir:hover{
+	cursor: pointer;
+}
+#actualizar{
+	background-color: lightcoral;
+	color: white;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+}
+#actualizar:hover{
+	cursor: pointer;
+}
+form input{
+	width: 50%;
+	border-radius: 5px;
+	border: 1px solid #e0e0e0
 }
