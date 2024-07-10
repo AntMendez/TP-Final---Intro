@@ -15,7 +15,10 @@
 		<p>Pdf: <br><input type="text" name="pdf" required></p>
 		<p>Imagenes: <br><input type="text" name="img" required></p>
 		<p>Descripcion: <br><input type="text" name="descripcion" required></p>
-		<p>Categorias: <br><input type="text" name="categoria" required></p>
+		<p>Categorias: <br>
+		<input type="radio" name="categoria" required>Libros</label><br>
+		<input type="radio" name="categoria" required>Apuntes</label><br>
+		<input type="radio" name="categoria" required>Examenes</label><br>
 		<button type="submit">Enviar</button>
 	</form>
 
@@ -24,7 +27,7 @@
 			console.log(data)
 			console.log(data.success)
 			if (data.success){
-				window.location.href = `http://127.0.0.1:5000/libros`
+				window.location.href = `http://127.0.0.1:5000/catalogo`
 			}else {
 				alert("Error")
 			}
@@ -41,7 +44,7 @@
 			const categoria = formData.get('categoria')
 			
 
-			fetch("http://127.0.0.1:5000/libros", {
+			fetch("http://127.0.0.1:5000/catalogo", {
 				method: "POST",
 				headers: {
 					"Content-Type":"application/json"
