@@ -11,9 +11,9 @@ port = 5000
 app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:123456@localhost:5432/tp_final'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
-# curl -X PUT -H "Content-Type":"application/json" -d '{"nombre": "Diego", "autor":"autor_1","img": "img_1","pdf":"pdf_1","descripcion": "desc_1","categoria": "catg_1"}' "http://localhost:5000/libros/27" 
+# curl -X PUT -H "Content-Type":"application/json" -d '{"nombre": "Diego", "autor":"autor_1","img": "img_1","pdf":"pdf_1","descripcion": "desc_1","categoria": "catg_1"}' "http://localhost:5000/catalogo/libros/27" 
 
-@app.route("/libros/<id_libro>",methods = ["PUT"])
+@app.route("/catalogo/<id_libro>",methods = ["PUT"])
 def editar_libro(id_libro):
     try: 
         data = request.json        
@@ -41,7 +41,7 @@ def editar_libro(id_libro):
         return jsonify({'message': 'Internal server error'}), 500
 
 
-@app.route("/libros/<id_libro>", methods = ["DELETE"])
+@app.route("/catalogo/<id_libro>", methods = ["DELETE"])
 def borrar_libro(id_libro):
     try:
         Libro.query.filter_by(id=id_libro).delete()
@@ -89,7 +89,7 @@ def agregar_comentarios(id_libro):
         return jsonify({'message': 'Internal server error'}), 500
             
 @app.route('/puntaciones/<id_libro>')
-def get_puntuaciones_by_id(id_libro):
+def get_puntuaciones_by_id(id_libro):   
     try:
         puntuacion_promedio=0
         puntuaciones = Puntuacion.query.filter_by(id_libro=id_libro)
@@ -116,7 +116,30 @@ def agregar_puntuacion_by_id(id_libro):
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
     
-@app.route('/libros/<id_libro>')
+
+
+@app.route('/<categoria>')
+def get_libro_by_categoria(categoria):
+    try:
+        libros=Libro.query.filter_by(categoria=categoria)
+        libros_data=[]
+        for libro in libros:
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            libros_data.append(libro_data)
+        return render_template('libros.html',data=libros_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+    
+@app.route('/catalogo/<id_libro>')
 def get_libro_by_id(id_libro):
     try:
         libro = Libro.query.get(id_libro)
@@ -127,58 +150,22 @@ def get_libro_by_id(id_libro):
             'img': libro.img,
             'pdf': libro.pdf,
             'descripcion': libro.descripcion,
-            'categoria': libro.categoria,
+            'categoria': libro.categoria
         }
-
-        midle=""
-        nombre=str(libro_data['nombre'])
-        midle+= f"<p>{nombre}<a href='{libro_data['pdf']}'><img src='{libro_data['img']}' width='100'></a></p>"
-        midle+= f"<button onclick='eliminar_libro({libro_data['id']})'>Eliminar</button>"
-        comentarios="""<br> <button onclick="get_comentarios(event)">Cargar comentarios</button>
-                        <ul id='lista_comentarios'>Lista de comentarios</ul>
-            <script>
-                function handle_response(data){
-                    if (!data){
-                        alert('Error')
-                        /*window.location.href = `http://127.0.0.1:5000/libros`*/
-                    }else{
-                        const ul = document.getElementById('lista_comentarios')
-                        var comentarios_json = data
-                        for (var i = 0; i < data.comentarios.length; i++){
-                            console.log(data.comentarios[i].comentario)
-                            const texto = data.comentarios[i].comentario
-                            console.log(texto)
-                            const li = document.createElement('li')
-                            li.innerHTML=texto
-                            ul.appendChild(li)
-                            }
-                        }
-                    }
-                function get_comentarios(event){
-                    event.preventDefault()
-                    fetch('http://127.0.0.1:5000/comentarios/"""+id_libro+"""')
-                    .then((res)=>res.json())
-                    .then(handle_response)
-                    .catch((error)=> console.log('ERROR',error))
-
-                    
-                }
-            </script>
-                """
-        midle+= comentarios
-        # return jsonify(libro_data)
-        return midle
+        
+        return render_template('libro.html',data=libro_data)
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
-
-@app.route('/libros') 
+        #return jsonify({'message': 'Internal server error'}), 500
+        return redirect('/')
+    
+@app.route('/catalogo')#/libros/<categoria> o /<categoria> ---> categoria = libros 
 def get_libros():
     try:
         libros = Libro.query.all()
         libros_data = []
         for libro in libros:
-            libro_data = {
+            libro_data = { 
                 'id': libro.id,
                 'nombre': libro.nombre,
                 'autor': libro.autor,
@@ -188,17 +175,7 @@ def get_libros():
                 'categoria': libro.categoria
             }
             libros_data.append(libro_data)
-        # return jsonify({'libros': libros_data})
-        # print(libros_data) #se imprime en terminal
-        midle=" "
-        for libro in range(0,len(libros_data)):
-            # print(libro)
-            # for key in libros_data[libro]:
-            #     key_value=str(libros_data[libro][key])
-            #     print(f'{key}: {key_value}')
-            nombre=str(libros_data[libro]['nombre'])
-            midle+= f"<p>{nombre}<a href='/libros/{libros_data[libro]['id']}'><img src='{libros_data[libro]['img']}' width='100'></a></p>"
-        return midle
+        return render_template('libros.html', data=libros_data)
 
     except Exception as error:
         print('Error', error)
@@ -208,7 +185,7 @@ def get_libros():
 def nuevo_libros():
     return render_template('form.html')
 
-@app.route('/libros', methods=['POST'])
+@app.route('/catalogo', methods=['POST'])
 def add_libros():
     try: 
 
@@ -224,13 +201,13 @@ def add_libros():
         # print('ID:  ',str(nuevo_libro.id))
         db.session.add(nuevo_libro)
         db.session.commit()
-        return jsonify({'libro': {'id':nuevo_libro.id, 'name':nuevo_libro.nombre,'categoria':nuevo_libro.categoria} }),201
+        return jsonify({'success':'algo','libro': {'id':nuevo_libro.id, 'name':nuevo_libro.nombre,'categoria':nuevo_libro.categoria} }),201
 
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-# curl -v -X PUT 'http://localhost:5000/libros/5'  '{
+# curl -v -X PUT 'http://localhost:5000/catalogo/libros/5'  '{
 #     "nombre": "Diego",
 #     "autor": 27,
 #     "img": 'img_1',
