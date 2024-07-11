@@ -24,7 +24,7 @@
 			console.log(data)
 			console.log(data.success)
 			if (data.success){
-				window.location.href = `http://127.0.0.1:5000/libros`
+				window.location.href = `http://127.0.0.1:5000/catalogo`
 			}else {
 				alert("Error")
 			}
@@ -41,7 +41,7 @@
 			const categoria = formData.get('categoria')
 			
 
-			fetch("http://127.0.0.1:5000/libros", {
+			fetch("http://127.0.0.1:5000/catalogo", {
 				method: "POST",
 				headers: {
 					"Content-Type":"application/json"
