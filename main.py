@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 # curl -X PUT -H "Content-Type":"application/json" -d '{"nombre": "Diego", "autor":"autor_1","img": "img_1","pdf":"pdf_1","descripcion": "desc_1","categoria": "catg_1"}' "http://localhost:5000/catalogo/libros/27" 
 
+
 @app.route("/catalogo/<id_libro>",methods = ["PUT"])
 def editar_libro(id_libro):
     try: 
