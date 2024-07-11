@@ -45,6 +45,10 @@ li {
 .lista_temas{
 	font-weight: bolder;	
 }
+.nav-bar:hover{
+	color: white;
+	cursor: pointer;
+}
 #accion:hover{
 	color: white;
 	cursor: pointer;
