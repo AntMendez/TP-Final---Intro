@@ -16,14 +16,8 @@ body {
 #crear:hover{
 	cursor: pointer;
 }
-ul {
-	list-style: none;
-	background-color: lightsalmon;
-}
-li {
-	display: inline-block;
-	width: 33%;
-}
+
+
 #eliminar{
 	background-color: red;
 	color: white;
@@ -43,7 +37,14 @@ li {
 	cursor: pointer;
 }
 .lista_temas{
+	list-style: none;
+	background-color: lightsalmon;
 	font-weight: bolder;	
+}
+
+.nav-bar{
+	display: inline-block;
+	width: 33%;
 }
 .nav-bar:hover{
 	color: white;
@@ -93,7 +94,7 @@ li {
 #actualizar:hover{
 	cursor: pointer;
 }
-form input{
+.formularioxd input{
 	width: 50%;
 	border-radius: 5px;
 	border: 1px solid #e0e0e0
