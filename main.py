@@ -63,7 +63,6 @@ def get_comentarios_by_id(id_libro):
     try:
         comentarios =[]
         query_comentarios = Comentario.query.filter_by(id_libro=id_libro)
-        print(query_comentarios)
         for comentario in query_comentarios:
             comentario_data = {
                 'id': comentario.id,
@@ -80,30 +79,43 @@ def get_comentarios_by_id(id_libro):
 def agregar_comentarios(id_libro):
     try:
         data= request.json   
-        comentario=data.get('comentario')   
-        nuevo_comentario=Comentario(id_libro=id_libro, comentario=comentario)
+        print(data)
+        
+        comentarios=data.get('comentarios')  
+        print(comentarios) 
+
+        nuevo_comentario=Comentario(id_libro=id_libro, comentarios=comentarios)
+        print(nuevo_comentario)
+
         db.session.add(nuevo_comentario)
         db.session.commit()
+        
+        print(nuevo_comentario.comentarios)
         return jsonify({'comentario':nuevo_comentario.comentarios})
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
             
-@app.route('/puntaciones/<id_libro>')
+@app.route('/puntuaciones/<id_libro>')
 def get_puntuaciones_by_id(id_libro):   
     try:
         puntuacion_promedio=0
         puntuaciones = Puntuacion.query.filter_by(id_libro=id_libro)
         for puntuacion in puntuaciones:
             puntuacion_promedio+= puntuacion.puntuacion
-        puntuacion_promedio = str(puntuacion_promedio/puntuaciones.length)[:3] #un digito con un decimal
-        return jsonify({'puntuacion promedio':puntuacion_promedio,'cantidad puntuaciones': puntuaciones.length})
+        try: 
+            puntuacion_promedio = str(puntuacion_promedio//puntuaciones.count())#[:3] un digito con un decimal
+        except ZeroDivisionError as error:
+            puntuacion_promedio ="No tiene puntuaciones"
+        print(puntuacion_promedio)
+        print(str(puntuaciones.count()))
+        return jsonify({'puntuacion_promedio':puntuacion_promedio,'cantidad_puntuaciones': str(puntuaciones.count())})
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
 
-@app.route('/puntaciones/<id_libro>',methods=['POST'])
+@app.route('/puntuaciones/<id_libro>',methods=['POST'])
 def agregar_puntuacion_by_id(id_libro):
     try:
         puntuacion_data = request.json
