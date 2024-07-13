@@ -1,11 +1,6 @@
 body {
 	background-color: lightgrey;
 }
-.titulo {
-	text-align: center;
-	background-color: deepskyblue;
-	text-transform: uppercase;
-}
 .book_type {
 	background-color: transparent;
 	border: none;
@@ -16,8 +11,6 @@ body {
 #crear:hover{
 	cursor: pointer;
 }
-
-
 #eliminar{
 	background-color: red;
 	color: white;
