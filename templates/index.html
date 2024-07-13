@@ -10,6 +10,7 @@
 		footer {
 			text-align: center;
 			background-color: white;
+			width: 100%;
 		}
 		a {
 			text-decoration: none;
@@ -25,6 +26,18 @@
 			font-weight: bolder;
 			text-transform: uppercase;
 		}
+		html, body {
+			height: 100%;
+			min-height: 100%;
+			position: relative;
+			padding-bottom: 81px;
+		}
+		#archivos {
+			text-align: right;
+			margin-right: 10px;
+		}
+
+
 	</style>
 </head>
 
@@ -38,8 +51,9 @@
 			<li class="nav-bar" id="examen"><a href='/examenes'>Examenes</a></li>
 
 		</ul>
+	<h4 class="redireccion" id="archivos"><a href='/catalogo'>Ver Catálogo</a></h4>
 	<br>
-	<h2 id="recomendados">Recomendados</h2>
+	<h4 id="recientes">Recientes</h4>
 	<!-- acá irían los 5 libros con mejor rating -->
 	<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez-1.jpg?w=1140" width="250"></a>
 	<!-- uso el <a></a> para linkear a la pagina del pdf, y en el contenido del <a> linkeo a la imagen del pdf  -->
