@@ -84,16 +84,84 @@
 	</form>
 	<br> <button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
 	<img src="" alt="" id="imagen_libro">
-    <button id="comentario">Enviar un comentario</button>
+	
+    
 	<ul id='lista_comentarios'>Lista de comentarios</ul>
 	
 
 	<script>
-		
-		function handle_response_delete(data){
-			if (!data)
-			alert('Error')
+
+		function handle_response_agregar_comentario(data){
+			if (!data){
+				alert('Error: no se pudo agregar el comentario')
 				window.location.href = `http://127.0.0.1:5000/`
+			
+			}else{
+				window.location.href=`http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+				let boton = document.getElementById("cargar_comentarios")
+				boton.click()
+			}
+			
+		}
+
+
+		function agregar_comentario(event){
+			event.preventDefault()
+			const formData = new FormData(event.target)
+			const id_libro = "{{data.id}}"
+			const comentario = formData.get("hola")
+		
+			fetch(`http://127.0.0.1:5000/comentarios/`+id_libro,{
+				method: "POST",
+				headers: {
+					"Content-Type":"application/json"
+				},body:JSON.stringify({
+					id_libro:id_libro,
+					comentarios:comentario
+					})	
+			})
+			.then((res)=>res.json())
+			.then(handle_response_agregar_comentario)
+			.catch((error)=> console.log("ERROR",error))
+		}
+
+
+		function handle_response_valorar_libro(data){
+			if (!data){
+				alert('Error: no se pudo puntuar el libro')
+				window.location.href = `http://127.0.0.1:5000/`
+			}
+			window.location.href=`http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			
+		}		
+		
+
+		function puntuar_libro(event){
+			event.preventDefault()
+			const formData = new FormData(event.target)
+			const id_libro = "{{data.id}}"
+			const puntuacion = formData.get("estrellas")
+			fetch(`http://127.0.0.1:5000/puntuaciones/`+id_libro, {
+				method: "POST",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					id_libro:id_libro,
+					puntuacion:puntuacion
+					})												
+				})
+			
+			.then((res)=>res.json())
+			.then(handle_response_valorar_libro)
+			.catch((error)=> console.log("ERROR",error))
+		}
+
+		function handle_response_delete(data){
+			if (!data){
+				alert('Error')
+				window.location.href = `http://127.0.0.1:5000/`
+			}
 		}		
 
 		function handle_response(data){
