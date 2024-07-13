@@ -34,13 +34,33 @@ def editar_libro(id_libro):
         libro.descripcion=descripcion
         libro.categoria=categoria
         db.session.commit()
-
+        print(jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'categoria':libro.categoria} }))
         return jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'categoria':libro.categoria} }),201
-
+    
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+    
+@app.route("/editar/<id_libro>", methods = ["POST"])
+def get_editar_libro(id_libro):
+    try:
+        data = request.json        
+        """nombre= data.get('nombre')
+        autor= data.get('autor')
+        img = data.get('img')
+        pdf = data.get('pdf')
+        descripcion = data.get('descripcion')
+        categoria = data.get('categoria')
+        libro_data="""
+        print(data)
+        return render_template('actualizar.html')
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
+@app.route("/editar/<id_libro>")
+def modificar_libro(id_libro):
+    return render_template('actualizar.html')
 
 @app.route("/catalogo/<id_libro>", methods = ["DELETE"])
 def borrar_libro(id_libro):
