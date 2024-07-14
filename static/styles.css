@@ -12,6 +12,7 @@ body {
 	cursor: pointer;
 }
 #eliminar{
+	margin-left: 5px;
 	background-color: red;
 	color: white;
 	width: 75px;
@@ -61,4 +62,30 @@ body {
 }
 #actualizar:hover{
 	cursor: pointer;
+}
+#describir {
+	height: 80px;
+}
+#btn-subir {
+	text-decoration: none;
+	color: grey;
+}
+#btn-subir:hover {
+	color: black;
+}
+.imagen-info {
+	display: flex;
+	align-items: center;
+	background-color: white;
+}
+#sector-inferior {
+	margin-left: 10px;
+}
+#boton_libro {
+	background-color: blue;
+	color: white;
+	font-weight: bolder;
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #e0e0e0;
 }
