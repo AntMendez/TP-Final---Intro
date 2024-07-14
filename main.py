@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from flask import Flask, redirect, url_for, request, render_template, jsonify
 app = Flask(__name__, static_url_path='/templates')
-from models import db, Libro, Puntuacion, Comentario
+from models import db, Libro,  Comentario #,Puntuacion
 
 
 
@@ -34,7 +34,6 @@ def editar_libro(id_libro):
         libro.descripcion=descripcion
         libro.categoria=categoria
         db.session.commit()
-        print(jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'categoria':libro.categoria} }))
         return jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'categoria':libro.categoria} }),201
     
     except Exception as error:
@@ -52,7 +51,6 @@ def get_editar_libro(id_libro):
         descripcion = data.get('descripcion')
         categoria = data.get('categoria')
         libro_data="""
-        print(data)
         return render_template('actualizar.html')
     except Exception as error:
         print('Error', error)
@@ -115,21 +113,18 @@ def agregar_comentarios(id_libro):
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
-            
+""""""            
 @app.route('/puntuaciones/<id_libro>')
-def get_puntuaciones_by_id(id_libro):   
+def get_puntuacion_by_id(id_libro):   
     try:
-        puntuacion_promedio=0
-        puntuaciones = Puntuacion.query.filter_by(id_libro=id_libro)
-        for puntuacion in puntuaciones:
-            puntuacion_promedio+= puntuacion.puntuacion
-        try: 
-            puntuacion_promedio = str(puntuacion_promedio//puntuaciones.count())#[:3] un digito con un decimal
-        except ZeroDivisionError as error:
-            puntuacion_promedio ="No tiene puntuaciones"
-        print(puntuacion_promedio)
-        print(str(puntuaciones.count()))
-        return jsonify({'puntuacion_promedio':puntuacion_promedio,'cantidad_puntuaciones': str(puntuaciones.count())})
+        
+        puntuacion = Libro.query.filter_by(id=id_libro).first().puntuacion
+       
+        if not puntuacion:
+            puntuacion ="No tiene puntuacion"
+        print(puntuacion)
+
+        return jsonify({'puntuacion':puntuacion})
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -140,11 +135,12 @@ def agregar_puntuacion_by_id(id_libro):
     try:
         puntuacion_data = request.json
         puntuacion = puntuacion_data.get('puntuacion')
-        nueva_puntuacion = Puntuacion(id_libro=id_libro,puntuacion=puntuacion)
-        db.session.add(nueva_puntuacion)
+        libro = Libro.query.filter_by(id=id_libro).first()
+        libro.puntuacion=puntuacion
+        
         db.session.commit()
         
-        return jsonify({'puntuacion':nueva_puntuacion.puntuacion}),201
+        return jsonify({'puntuacion':puntuacion}),201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500

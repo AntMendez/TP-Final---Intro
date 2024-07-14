@@ -15,26 +15,26 @@
 		{{data.categoria}}
 	</p>
 	<button id="eliminar" onclick="eliminar_libro(event)">Eliminar</button></p>
-	<p id="puntuaciones">Puntuaciones:
+	<p id="puntuacion">Puntuacion:
 		<script>
-		function handle_response_puntuaciones(data){
+		function handle_response_puntuacion(data){
 			if (!data){
-			alert('Error al cargar puntuaciones')
+			alert('Error al cargar puntuacion')
 				window.location.href = `http://127.0.0.1:5000/`
 			}else{
 				
-				var texto= data.puntuacion_promedio
-				let puntuacion = document.getElementById('puntuaciones')
+				var texto= data.puntuacion
+				let puntuacion = document.getElementById('puntuacion')
 			
 				let p = document.createElement('p')
-				if (texto != "No tiene puntuaciones"){
+				if (texto != "No tiene puntuacion"){
 					const estrellas=parseInt(texto)
 					texto=""
 					for (let i=0;i<estrellas;i++){
 						texto+= "⭐"
 					}
 				}
-				texto+=" (Valoraciones totales:"+data.cantidad_puntuaciones+")"
+			
 				p.innerText=texto
 				puntuacion.append(texto)
 			}
@@ -43,7 +43,7 @@
 		console.log("hola")
 		fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
 		.then((res)=>res.json())
-		.then(handle_response_puntuaciones)
+		.then(handle_response_puntuacion)
 		.catch((error)=> console.log('ERROR',error))
 		console.log("chau")
 		</script>
