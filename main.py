@@ -63,7 +63,14 @@ def modificar_libro(id_libro):
 @app.route("/catalogo/<id_libro>", methods = ["DELETE"])
 def borrar_libro(id_libro):
     try:
-        Libro.query.filter_by(id=id_libro).delete()
+        try:
+            print(Comentario.query.filter_by(id_libro=id_libro).delete())
+            db.session.commit()
+        except Exception as error:
+            print('Error', error)
+            return jsonify({'message': 'Internal server error'}), 500
+        
+        print(Libro.query.filter_by(id=id_libro).delete())
         db.session.commit()
         return jsonify({'success':'El libro ' +id_libro+' fue borrado exitosamente'}), 500
     except Exception as error:
