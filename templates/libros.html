@@ -7,29 +7,31 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"/>
-	<link rel="stylesheet" href="/static/styles.css">
+	<!-- <link rel="stylesheet" href="/static/styles.css"> -->
 	<style>
-		a {
+		.nav-link, #btn-publicar {
+			font-size: 1.4rem;
+			font-weight: 400;
+		}
+		#btn-publicar a {
 			text-decoration: none;
 			text-align: center;
 			color: green;
 		}
-		a:hover {
+		#btn-publicar a:hover {
 			color: white;
 		}
+		/*#img-libro{
+			width: 200px;
+		}*/
 	</style>
 
 </head>
-<body class="p-0 m-0 border-0 bd-example m-0 border-0">
+<body class="p-0 mx-5 border-0 bd-example m-2 border-0">
 
-	<!-- <nav class="navbar bg-body-tertiary" style="background-color: #e3f2fd;"> / 
-	  <div class="container">
-	    <a class="navbar-brand" href="/"><img src="/static/logo.jpeg"  alt="Bootstrap" width="50" height=""></a>
-	  </div>
-	</nav> -->
-	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
-	  <div class="container-fluid">
-	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
+	<nav class="navbar navbar-expand-lg  rounded-3  mx-5 bg-body-secondary bg-opacity-20">
+	  <div class="container container-fluid">
+	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="40" height=""></a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
@@ -56,67 +58,42 @@
 	        </li>
 	      </ul>
 	      <form class="d-flex" role="search">
-	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
+	        <button id="btn-publicar" class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
 	      </form>
 	    </div>
 	  </div>
 	</nav>
 
 
-
-
-
-<!-- ----------------------------------------------------------------------------------------- -->
-	<!-- <div class="container">
-		<div class="container">
-			<h1 class="text-center">Bibliofy</h1>
-			<div class="row align-items-start">
-			    <div class="col text-center">
-			      <h3><a href='/libros'>Libros</a></h3>
-			    </div>
-			    <div class="col text-center">
-			      <h3><a href='/apuntes'>Apuntes</a></h3>
-			    </div>
-			    <div class="col text-center">
-			      <h3><a href='/examenes'>Examenes</a></h3>
-			    </div>
-			 </div>
-		</div>
-		<div class="container mt-4">	
-			<h3><a href="/">Volver a Inicio</a></h3>
-			<h3><a href="/publicar">Publicar nuevo libro</a></h3>
-		</div> -->
-
-
-		<!-- //////////////////////////////// -->
-		<!-- <h1 class="titulo">Bibliofy</h1>
-		<div id="temas"></div>
-			<ul class="lista_temas">
-
-				<li class="nav-bar" id="libro"><a href='/libros'>Libros</a></li>
-				<li class="nav-bar" id="apunte"><a href='/apuntes'>Apuntes</a></li>
-				<li class="nav-bar" id="examen"><a href='/examenes'>Examenes</a></li>
-
-			</ul> -->
-			<!-- //////////////////////////////// -->
-
-		<div class="container">
-			<h1 class="text-center">Archivos</h1>
-		</div>
+	<div class=" border border-black-subtle rounded-2 mt-5 mx-5 bg-success p-2 text-dark bg-opacity-10 ">
+		<h1 class="text-center">Archivos</h1>
 
 		<div class="container">
 			<div class="row g-4">
 			{% for d in data %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
-					<a class="card" href="/catalogo/{{d.id}}">
-						<img class="card_img-top" src="{{d.img}}" width="150">
-						<div class="card-body mb-0"><p>Titulo: {{d.nombre}}</p><p>Autor: {{d.autor}}</p> </div>
-					</a>
+					<a><div class="card">
+					  <div class="card-body">
+					    <h5 class="card-title">{{d.nombre}}</h5>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">Autor: {{d.autor}}</li>
+					    <li class="list-group-item">Tipo: {{d.categoria}}</li>
+					  </ul>
+					  <div class="card-body">
+					    <a href="/catalogo/{{d.id}}" class="card-link">Más info...</a>
+					  </div>
+					  <div id="img-libro">
+					  	<img src="{{d.img}}" class="text-center card-img-left" height="250px">
+					  </div>
+					</div></a>
 				</div>
 			{% endfor %}
 			</div>
 		</div>
 	</div>
+
+	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
