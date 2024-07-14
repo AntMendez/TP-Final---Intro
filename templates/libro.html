@@ -4,89 +4,164 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Archivo - Bibliofy</title>
-	<link rel="stylesheet" href="/static/styles.css"> 
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link rel="stylesheet" href="/static/styles.css">
+	<title>{{data.nombre}} - Bibliofy</title>
+	<style>
+	#editar{
+		background-color: lightgoldenrodyellow;
+		width: 75px;
+		height: 35px;
+		font-weight: bolder;
+	}
+	#editar:hover{
+		cursor: pointer;
+	}
+	.title {
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bolder;
+	}
+	.form-control {
+			border-radius: 5px;
+			border: 1px solid #e0e0e0;
+			width: 1000px;
+	}
+	.form-label {
+		font-weight: bolder;
+	}
+	footer {
+		text-align: center;
+		background-color: white;
+	}
+	</style>
 </head>
 <body>
-	<p>{{data.nombre}}</p>
-	<a href="{{data.pdf}}"><img src='{{data.img}}' width='100'></a>
-	<p>{{data.autor}}
-		{{data.descripcion}}
-		{{data.categoria}}
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="60" height=""></a>
+		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			  <li class="nav-item">
+				<a class="nav-link" href="/catalogo">Ver Catalogo</a>
+			  </li>
+  
+			  <li class="nav-item">
+				<a class="nav-link" href="#">Playlist</a>
+			  </li>
+  
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  Tipos
+				</a>
+  
+				<ul class="dropdown-menu">
+				  <li><a class="dropdown-item" href="libros">Libros</a></li>
+				  <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
+				  <li><a class="dropdown-item" href="examenes">Exámenes</a></li>
+				</ul>
+			  </li>
+			</ul>
+			<form class="d-flex" role="search">
+				<a class="btn-outline-success" id="btn-subir" type="submit" href="/publicar" >Subir nuevo archivo</a> </button>
+			</form>
+		  	</div>
+		</div>
+	</nav>
+	<p>
+	<h1 class="title">{{data.nombre}}</h1>
+	<h3 class="title">{{data.categoria}}</h3>
 	</p>
-	<button id="eliminar" onclick="eliminar_libro(event)">Eliminar</button></p>
-	<p id="puntuacion">Puntuacion:
-		<script>
-		function handle_response_puntuacion(data){
-			if (!data){
-			alert('Error al cargar puntuacion')
-				window.location.href = `http://127.0.0.1:5000/`
-			}else{
+	<div class="imagen-info">
+	<p><a href="{{data.pdf}}"><img src='{{data.img}}' width='250px' height='350px'></a>
+	<ul>
+		<h6>Autor: {{data.autor}}</h6>
+		<h6>{{data.descripcion}}</h6>
+		<p id="puntuacion">Puntuacion:
+			<script>
+			function handle_response_puntuacion(data){
+				if (!data){
+				alert('Error al cargar puntuacion')
+					window.location.href = `http://127.0.0.1:5000/`
+				}else{
+					
+					var texto= data.puntuacion
+					let puntuacion = document.getElementById('puntuacion')
 				
-				var texto= data.puntuacion
-				let puntuacion = document.getElementById('puntuacion')
-			
-				let p = document.createElement('p')
-				if (texto != "No tiene puntuacion"){
-					const estrellas=parseInt(texto)
-					texto=""
-					for (let i=0;i<estrellas;i++){
-						texto+= "⭐"
+					let p = document.createElement('p')
+					if (texto != "No tiene puntuacion"){
+						const estrellas=parseInt(texto)
+						texto=""
+						for (let i=0;i<estrellas;i++){
+							texto+= "⭐"
+						}
 					}
+				
+					p.innerText=texto
+					puntuacion.append(texto)
 				}
-			
-				p.innerText=texto
-				puntuacion.append(texto)
 			}
-		}
-
-		console.log("hola")
-		fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
-		.then((res)=>res.json())
-		.then(handle_response_puntuacion)
-		.catch((error)=> console.log('ERROR',error))
-		console.log("chau")
+	
+			console.log("hola")
+			fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
+			.then((res)=>res.json())
+			.then(handle_response_puntuacion)
+			.catch((error)=> console.log('ERROR',error))
+			console.log("chau")
+			</script>
+		</p>
+		<p><label for="estrellas">¡Valorá este archivo!</label></p>
+		<form onsubmit="puntuar_libro(event)">
+			<input
+			type="range"
+			name="estrellas"
+			id="estrellas"
+			min="1"
+			max="5"
+			step="1"
+			value="3" />
+			<output class="estrellas-output" for="estrellas"></output>
+			<br>	
+			<button type="submit" id="boton_libro">Enviar puntuación</button>
+		</form>
+		
+		<script>
+			const price = document.querySelector("#estrellas");
+			const output = document.querySelector(".estrellas-output");
+	
+			price.addEventListener("input", function () {
+				output.textContent=""
+				for (let i=0;i<price.value;i++){
+					output.textContent+= "⭐"
+						}
+				});
+	
 		</script>
+	
+	</ul>
 	</p>
-	
-	<label for="estrellas">¡Valorá este libro! : </label>
-	<form onsubmit="puntuar_libro(event)">
-		<input
-		type="range"
-		name="estrellas"
-		id="estrellas"
-		min="1"
-		max="5"
-		step="1"
-		value="3" />
-		<output class="estrellas-output" for="estrellas"></output>
-		<br>	
-		<button type="submit">Enviar puntuacion</button>
-	</form>
-	
-	<script>
-		const price = document.querySelector("#estrellas");
-		const output = document.querySelector(".estrellas-output");
-
-		price.addEventListener("input", function () {
-			output.textContent=""
-			for (let i=0;i<price.value;i++){
-				output.textContent+= "⭐"
-					}
-			});
-
-	</script>
-
+	</div>
+	<br>
+	<button id="eliminar" onclick="eliminar_libro(event)">Eliminar</button>
+	<a href="/editar/{{data.id}}"><button id="editar">Editar</button></a>
+	<br>
+	<br>
+	<div id="sector-inferior">
 	<form onsubmit="agregar_comentario(event)">
-		<p>Comentario: <br><input type="text" name="hola" required></p>
-	
-		<button type="submit">Enviar comentario</button>
+		<label class="form-label">Enviar un comentario</label>
+		<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
+		<br>
+		<button type="submit" id="boton_libro">Enviar</button>
 	</form>
-	<br> <button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
+	<br>
+	<button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
 	<img src="" alt="" id="imagen_libro">
 	
     
-	<ul id='lista_comentarios'>Lista de comentarios</ul>
+	<ul id='lista_comentarios'></ul>
 	
 
 	<script>
@@ -204,8 +279,9 @@
 			}
 		}
 	</script>
+	</div>
 </body>
 <footer>
-	
+	<p>Bibliofy 2024</p>
 </footer>
 </html>
