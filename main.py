@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from flask import Flask, redirect, url_for, request, render_template, jsonify
+from flask import Flask, redirect, url_for, request, render_template, jsonify 
 app = Flask(__name__, static_url_path='/templates')
-from models import db, Libro,  Comentario #,Puntuacion
+from models import db, Libro,  Comentario, Playlist #,Puntuacion
 
 
 
@@ -13,6 +13,134 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 # curl -X PUT -H "Content-Type":"application/json" -d '{"nombre": "Diego", "autor":"autor_1","img": "img_1","pdf":"pdf_1","descripcion": "desc_1","categoria": "catg_1"}' "http://localhost:5000/catalogo/libros/27" 
 
+@app.route("/playlists/todas")
+def get_playlists_todas():
+    try:
+        playlists = Playlist.query.all()
+        playlists_data=[]
+        playlists_nombres=set()
+        for playlist in playlists:
+            print(playlist.nombre)
+            if not (playlist.nombre) in playlists_nombres:
+                playlist_data = {
+                    'id':playlist.id,
+                    'nombre':playlist.nombre
+                }
+                playlists_nombres.add(playlist.nombre)
+                playlists_data.append(playlist_data)
+        return jsonify({'playlists':playlists_data}),200
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@app.route("/playlists")
+def get_playlists():
+    try:
+        playlists = Playlist.query.all()
+        playlists_data=[]
+        playlists_nombres=set()
+        for playlist in playlists:
+            print(playlist.nombre)
+            if not (playlist.nombre) in playlists_nombres:
+                playlist_data = {
+                    'id':playlist.id,
+                    'nombre':playlist.nombre
+                }
+                playlists_nombres.add(playlist.nombre)
+                playlists_data.append(playlist_data)
+        #return jsonify({'playlists':playlists_data}),200
+        print(playlists_data)
+        return render_template('playlists.html',data=playlists_data)
+    
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+    
+
+@app.route("/playlists", methods=['POST'])
+def crear_playlist():
+    try:
+        data= request.json
+        print(data)
+
+        nombre= data.get('nombre')
+        print(nombre)
+
+        id_libro = data.get('id_libro')
+        print(id_libro)
+
+        playlist= Playlist(id_libro=id_libro,nombre=nombre)
+        print(playlist)
+        db.session.add(playlist)
+        db.session.commit()
+
+        return jsonify({'playlist':playlist.id}) #render_template con index.html donde aparecerian todas las playlists incluida la nueva
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+@app.route("/playlists/<nombre_playlist>")
+def get_playlist(nombre_playlist):
+    try:
+        query_playlist= Playlist.query.filter_by(nombre=nombre_playlist)
+        playlist_data=[]
+        for libro_playlist in query_playlist:
+            libro=Libro.query.filter_by(id=libro_playlist.id_libro).first()
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            playlist_data.append(libro_data)
+            
+        #return jsonify({'playlist':playlist_data})
+        return render_template('libros.html',data=playlist_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@app.route("/playlists/<nombre_playlist>", methods=['POST'])
+def agregar_libro_a_playlist(nombre_playlist):
+    try:
+        id_libro = request.json.id_libro
+        playlist = Playlist(id_libro=id_libro,nombre=nombre_playlist)
+        db.session.add(playlist)
+        db.session.commit()
+        return jsonify({'playlist':playlist.id})
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+
+@app.route("/playlists/<nombre_playlist>", methods=['DELETE'])
+def remover_libro_de_playlist(nombre_playlist):
+    try:
+        id_libro = request.json.id_libro
+        Playlist.query.filter_by(id_libro=id_libro,nombre=nombre_playlist).first().delete()
+        db.session.commit()
+        return jsonify({'success':'El libro ' +id_libro+' fue removido exitosamente.'}), 200
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+@app.route("/playlists", methods=['DELETE'])
+def eliminar_playlist(nombre_playlist):
+    try:
+        nombre_playlist = request.json.nombre_playlist
+        Playlist.query.filter_by(nombre=nombre_playlist).delete()
+        db.session.commit()
+        return jsonify({'success':'La playlist' +nombre_playlist+' fue borrada exitosamente.'}),200
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 
 @app.route("/editar/<id_libro>",methods = ["PUT"])
 def editar_libro(id_libro):
