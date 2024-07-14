@@ -167,26 +167,54 @@ def editar_libro(id_libro):
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
-    
-@app.route("/editar/<id_libro>", methods = ["POST"])
+"""@app.route("/editar/<id_libro>", methods = ["POST"])
 def get_editar_libro(id_libro):
     try:
-        data = request.json        
-        """nombre= data.get('nombre')
-        autor= data.get('autor')
-        img = data.get('img')
-        pdf = data.get('pdf')
-        descripcion = data.get('descripcion')
-        categoria = data.get('categoria')
-        libro_data="""
-        return render_template('actualizar.html')
+        libro_data = {}
+        try:
+            libro=Libro.query.filter_by_id(id=id_libro).first()
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+        except Exception as error:
+            print('Error', error)
+            return jsonify({'message': 'Internal server error'}), 500
+       
+        return render_template('actualizar.html',data=libro_data)
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
+        return jsonify({'message': 'Internal server error'}), 500"""    
+
 
 @app.route("/editar/<id_libro>")
 def modificar_libro(id_libro):
-    return render_template('actualizar.html')
+    try:
+        libro_data = {}
+        try:
+            libro=Libro.query.filter_by(id=id_libro).first()
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            return render_template('actualizar.html',data=libro_data)
+        except Exception as error:
+            print('Error', error)
+            return jsonify({'message': 'Internal server error'}), 500
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+    
 
 @app.route("/catalogo/<id_libro>", methods = ["DELETE"])
 def borrar_libro(id_libro):
