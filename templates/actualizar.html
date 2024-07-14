@@ -39,28 +39,41 @@
 	</style>
 </head>
 <body>
-	<div class="container">
-		<h1 class="text-center">Bibliofy</h1>
+	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
+	  <div class="container-fluid">
+	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link" href="/catalogo">Ver Catalogo</a>
+	        </li>
 
-		<div class="row align-items-start">
-		    <div class="col text-center">
-		      <h3><a href='/libros'>Libros</a></h3>
-		    </div>
-		    <div class="col text-center">
-		      <h3><a href='/apuntes'>Apuntes</a></h3>
-		    </div>
-		    <div class="col text-center">
-		      <h3><a href='/examenes'>Examenes</a></h3>
-		    </div>
-		 </div>
-	</div>
+	        <li class="nav-item">
+	          <a class="nav-link" href="#">Playlist</a>
+	        </li>
 
-	<div class="container mt-4">	
-		<h3><a href="/">Volver a Inicio</a></h3>
-		<h3><a href="/catalogo">Ver Catalogo</a></h3>
-		<h3><a href="/publicar">Publicar nuevo libro</a></h3>
-	</div>
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	            Tipos
+	          </a>
 
+	          <ul class="dropdown-menu">
+	            <li><a class="dropdown-item" href="libros">Libros</a></li>
+	            <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
+	            <li><a class="dropdown-item" href="examenes">Examenes</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      <form class="d-flex" role="search">
+	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
+	      </form>
+	    </div>
+	  </div>
+	</nav>
+	
     <h1 class="title">Editar Archivo</h1>
 	<div class="container" > 
 		<form onsubmit="actualizar_libro(event)">
@@ -163,5 +176,6 @@
 	<footer>
 		<p>Bibliofy 2024</p>
 	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

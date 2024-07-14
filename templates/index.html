@@ -37,22 +37,47 @@
 			margin-right: 10px;
 		}
 
-
 	</style>
 </head>
 
 <body>
+
+	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
+	  <div class="container-fluid">
+	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link" href="/catalogo">Ver Catalogo</a>
+	        </li>
+
+	        <li class="nav-item">
+	          <a class="nav-link" href="#">Playlist</a>
+	        </li>
+
+	        <li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	            Tipos
+	          </a>
+
+	          <ul class="dropdown-menu">
+	            <li><a class="dropdown-item" href="libros">Libros</a></li>
+	            <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
+	            <li><a class="dropdown-item" href="examenes">Examenes</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	      <form class="d-flex" role="search">
+	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
+	      </form>
+	    </div>
+	  </div>
+	</nav>
+
 	<h1 class="title">Bibliofy</h1>
-	<div id="temas"></div>
-		<ul class="lista_temas">
-
-			<li class="nav-bar" id="libro"><a href='/libros'>Libros</a></li>
-			<li class="nav-bar" id="apunte"><a href='/apuntes'>Apuntes</a></li>
-			<li class="nav-bar" id="examen"><a href='/examenes'>Examenes</a></li>
-
-		</ul>
-	<h4 class="redireccion" id="archivos"><a href='/catalogo'>Ver Catálogo</a></h4>
-	<br>
 	<h4 id="recientes">Recientes</h4>
 	<!-- acá irían los 5 libros con mejor rating -->
 	<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez-1.jpg?w=1140" width="250"></a>
@@ -63,5 +88,6 @@
 	<footer>
 		<p>Bibliofy 2024</p>
 	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
