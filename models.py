@@ -13,7 +13,7 @@ class Libro(db.Model):
 	descripcion = db.Column(db.String(255), nullable=False)
 	categoria = db.Column(db.String(255), nullable=False)
 	puntuacion = db.Column(db.Integer,nullable=True)
-	
+
 """ class Puntuacion(db.Model):
 	__tablename__ = 'puntuaciones'
 	id = db.Column(db.Integer, primary_key=True)
@@ -25,3 +25,9 @@ class Comentario(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	id_libro = db.Column(db.Integer, db.ForeignKey('libros.id'))
 	comentarios = db.Column(db.String(255), nullable=False)
+
+class Playlist(db.Model):
+	_tablename__ = 'playlists'
+	id = db.Column(db.Integer, primary_key=True)
+	id_libro = db.Column(db.Integer, db.ForeignKey('libros.id'))
+	nombre = db.Column(db.String(255), nullable=False)
