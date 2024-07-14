@@ -32,79 +32,77 @@
 		}
 		.title{
 			text-align: center;
-			background-color: lightsalmon;
 			text-transform: uppercase;
 			font-weight: bolder;
 		}
 	</style>
 </head>
 <body>
-	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
-	  <div class="container-fluid">
-	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-	        <li class="nav-item">
-	          <a class="nav-link" href="/catalogo">Ver Catalogo</a>
-	        </li>
-
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">Playlist</a>
-	        </li>
-
-	        <li class="nav-item dropdown">
-	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-	            Tipos
-	          </a>
-
-	          <ul class="dropdown-menu">
-	            <li><a class="dropdown-item" href="libros">Libros</a></li>
-	            <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
-	            <li><a class="dropdown-item" href="examenes">Examenes</a></li>
-	          </ul>
-	        </li>
-	      </ul>
-	      <form class="d-flex" role="search">
-	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
-	      </form>
-	    </div>
-	  </div>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="60" height=""></a>
+		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			  <li class="nav-item">
+				<a class="nav-link" href="/catalogo">Ver Catalogo</a>
+			  </li>
+  
+			  <li class="nav-item">
+				<a class="nav-link" href="#">Playlist</a>
+			  </li>
+  
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				  Tipos
+				</a>
+  
+				<ul class="dropdown-menu">
+				  <li><a class="dropdown-item" href="libros">Libros</a></li>
+				  <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
+				  <li><a class="dropdown-item" href="examenes">Examenes</a></li>
+				</ul>
+			  </li>
+			</ul>
+			<form class="d-flex" role="search">
+				<a class="btn-outline-success" id="btn-subir" type="submit" href="/publicar" >Subir nuevo archivo</a> </button>
+			</form>
+		  	</div>
+		</div>
 	</nav>
-	
     <h1 class="title">Editar Archivo</h1>
 	<div class="container" > 
 		<form onsubmit="actualizar_libro(event)">
 			<div class="mb-3">
 			  <label class="form-label">Nombre</label>
 			  <br>
-			  <input type="text" class="form-control" name="nombre" placeholder="Harry Potter" required>
+			  <input type="text" class="form-control" name="nombre" placeholder="{{data.nombre}}" value="{{data.nombre}}">
 			</div>
 
 			<div class="mb-3">
 			  <label class="form-label">Autor</label>
 			  <br>
-			  <input type="text" class="form-control" name="autor" placeholder="JK Rowling" required>
+			  <input type="text" class="form-control" name="autor" placeholder="{{data.autor}}" value="{{data.autor}}">
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Enlace</label>
 			  	<br>
-			  	<input type="text" class="form-control" name="pdf" placeholder=".pdf" required>
+			  	<input type="text" class="form-control" name="pdf" placeholder="{{data.pdf}}" value="{{data.pdf}}">
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Imagen</label>
 			  	<br>
-			  	<input type="text" class="form-control" name="img" placeholder=".png, .jpg" required>
+			  	<input type="text" class="form-control" name="img" placeholder="{{data.img}}" value="{{data.img}}">
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label">Descripcion</label>
 			  	<br>
-				<input type="text" class="form-control" name="descripcion" required>
+				<input type="text" class="form-control" name="descripcion" id="{{data.descripcion}}" value="{{data.descripcion}}">
 			</div>
 
 			<div class="input-group mb-3">
@@ -123,6 +121,16 @@
 				  <input class="form-check-input mt-0" type="radio" name="categoria" value="examenes" required>Examenes</label>
 				</div>
 			</div>
+			<script>
+				const radios=document.getElementsByName("categoria")
+				for (let i=0;i<radios.length;i++){
+					console.log(radios[i])
+					console.log(radios[i].value)
+					if (radios[i].getAttribute('value')=='{{data.categoria}}'){
+						radios[i].setAttribute('checked', true)
+					}
+				}
+			</script>
 			<button id="actualizar" type="submit" class="btn btn-primary">Actualizar</button>
 		</form>
 	</div>
@@ -130,7 +138,7 @@
 		function handle_response(data){
 			console.log(data)
 			console.log(data.success)
-			if (data.success){
+			if (data){
 				window.location.href = `http://127.0.0.1:5000/catalogo`
 			}else {
 				alert("Error")
