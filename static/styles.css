@@ -34,36 +34,11 @@ body {
 	background-color: lightsalmon;
 	font-weight: bolder;	
 }
-
 .nav-bar{
 	display: inline-block;
 	width: 33%;
 }
 .nav-bar:hover{
-	color: white;
-	cursor: pointer;
-}
-#accion:hover{
-	color: white;
-	cursor: pointer;
-}
-#ficcion:hover{
-	color: white;
-	cursor: pointer;
-}
-#fantasia:hover{
-	color: white;
-	cursor: pointer;
-}
-#policial:hover{
-	color: white;
-	cursor: pointer;
-}
-#romance:hover{
-	color: white;
-	cursor: pointer;
-}
-#terror:hover{
 	color: white;
 	cursor: pointer;
 }
@@ -86,9 +61,4 @@ body {
 }
 #actualizar:hover{
 	cursor: pointer;
-}
-.formularioxd input{
-	width: 50%;
-	border-radius: 5px;
-	border: 1px solid #e0e0e0
 }

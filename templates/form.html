@@ -26,13 +26,25 @@
 		text-align: center;
 		background-color: white;
 	}
+	#btn-publicar {
+		background-color: lightseagreen;
+		border: 1px solid #e0e0e0;
+		font-weight: bolder;		
+	}
+	#btn-subir {
+		text-decoration: none;
+		color: grey;
+	}
+	#btn-subir:hover {
+		color: black;
+	}
 </style>
 </head>
 <body>
 
-	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 	  <div class="container-fluid">
-	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
+	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="60" height=""></a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
@@ -59,7 +71,7 @@
 	        </li>
 	      </ul>
 	      <form class="d-flex" role="search">
-	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
+	        <a class="btn-outline-success" id="btn-subir" type="submit" href="/publicar" >Subir nuevo archivo</a> </button>
 	      </form>
 	    </div>
 	  </div>
@@ -85,7 +97,7 @@
 		<form onsubmit="crear_libro(event)">
 			<div class="mb-3">
 			  <label class="form-label">Nombre</label>
-			  <input type="text" class="form-control" name="nombre" placeholder="Ingrese nombre" required>
+			  <input type="text" class="form-control" name="nombre" placeholder="Harry Potter" required>
 			</div>
 
 			<div class="mb-3">
@@ -123,7 +135,7 @@
 				  <input class="form-check-input mt-0" type="radio" name="categoria" value='examenes' required>Examenes</label>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">Enviar</button>
+			<button type="submit" id="btn-publicar" class="btn btn-primary">Publicar</button>
 		</form>
 	</div>
 	
