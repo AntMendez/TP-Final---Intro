@@ -351,6 +351,28 @@ def get_libro_by_id(id_libro):
         #return jsonify({'message': 'Internal server error'}), 500
         return redirect('/')
     
+@app.route('/catalogo/todos')#/libros/<categoria> o /<categoria> ---> categoria = libros 
+def get_todos_libros():
+    try:
+        libros = Libro.query.all()
+        libros_data = []
+        for libro in libros:
+            libro_data = { 
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            libros_data.append(libro_data)
+        return jsonify({'libros':libros_data}),200
+
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
 @app.route('/catalogo')#/libros/<categoria> o /<categoria> ---> categoria = libros 
 def get_libros():
     try:
