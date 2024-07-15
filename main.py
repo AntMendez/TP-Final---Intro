@@ -20,7 +20,6 @@ def get_playlists_todas():
         playlists_data=[]
         playlists_nombres=set()
         for playlist in playlists:
-            print(playlist.nombre)
             if not (playlist.nombre) in playlists_nombres:
                 playlist_data = {
                     'id':playlist.id,
@@ -41,7 +40,6 @@ def get_playlists():
         playlists_data=[]
         playlists_nombres=set()
         for playlist in playlists:
-            print(playlist.nombre)
             if not (playlist.nombre) in playlists_nombres:
                 playlist_data = {
                     'id':playlist.id,
@@ -50,7 +48,6 @@ def get_playlists():
                 playlists_nombres.add(playlist.nombre)
                 playlists_data.append(playlist_data)
         #return jsonify({'playlists':playlists_data}),200
-        print(playlists_data)
         return render_template('playlists.html',data=playlists_data)
     
     except Exception as error:
@@ -63,16 +60,12 @@ def get_playlists():
 def crear_playlist():
     try:
         data= request.json
-        print(data)
 
         nombre= data.get('nombre')
-        print(nombre)
 
         id_libro = data.get('id_libro')
-        print(id_libro)
 
         playlist= Playlist(id_libro=id_libro,nombre=nombre)
-        print(playlist)
         db.session.add(playlist)
         db.session.commit()
 
@@ -81,6 +74,29 @@ def crear_playlist():
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
+@app.route("/playlists/<nombre_playlist>/catalogo")
+def get_playlist_catalogo(nombre_playlist):
+    try:
+        query_playlist= Playlist.query.filter_by(nombre=nombre_playlist)
+        playlist_data=[]
+        for libro_playlist in query_playlist:
+            libro=Libro.query.filter_by(id=libro_playlist.id_libro).first()
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            playlist_data.append(libro_data)
+            
+        return jsonify({'playlist':playlist_data})
+        #return render_template('libros.html',data=playlist_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 @app.route("/playlists/<nombre_playlist>")
 def get_playlist(nombre_playlist):
     try:
