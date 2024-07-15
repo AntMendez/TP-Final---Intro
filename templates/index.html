@@ -13,24 +13,16 @@
 			width: 100%;
 		}
 		a {
-			text-decoration: none;
 			text-align: center;
-			color: black;
+
 		}
 		a:hover {
 			color: white;
 		}
 		.title {
 			text-align: center;
-			background-color: deepskyblue;
 			font-weight: bolder;
 			text-transform: uppercase;
-		}
-		html, body {
-			height: 100%;
-			min-height: 100%;
-			position: relative;
-			padding-bottom: 81px;
 		}
 		#archivos {
 			text-align: right;
@@ -41,10 +33,9 @@
 </head>
 
 <body>
-
-	<nav class="container navbar navbar-expand-lg bg-body-tertiary">
-	  <div class="container-fluid">
-	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.jpeg"  alt="Inicio" width="60" height=""></a>
+	<!-- <nav class=" border navbar navbar-expand-lg bg-body-tertiary">
+	  <div class="container container-fluid">
+	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="45" height=""></a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
@@ -55,7 +46,7 @@
 	        </li>
 
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">Playlist</a>
+	          <a class="nav-link" href="/playlists">Playlist</a>
 	        </li>
 
 	        <li class="nav-item dropdown">
@@ -75,19 +66,23 @@
 	      </form>
 	    </div>
 	  </div>
-	</nav>
+	</nav> -->
+	{% include "navbar.html" %}
+	<div class="container mt-5">
+		<h1 class="title">Bibliofy</h1>
+		<h4 class="my-3" >Recientes</h4>
+		<!-- acá irían los 5 libros con mejor rating -->
+		<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez-1.jpg?w=1140" width="250"></a>
+		<!-- uso el <a></a> para linkear a la pagina del pdf, y en el contenido del <a> linkeo a la imagen del pdf  -->
+		<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2017/05/escaneo-la-mudanza-de-los-poderes.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2017/05/la-mudanza-de-los-poderes.jpg?w=392" width="250"> </a>
+	</div>
 
-	<h1 class="title">Bibliofy</h1>
-	<h4 id="recientes">Recientes</h4>
-	<!-- acá irían los 5 libros con mejor rating -->
-	<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2018/05/antigona-gonzalez-1.jpg?w=1140" width="250"></a>
-	<!-- uso el <a></a> para linkear a la pagina del pdf, y en el contenido del <a> linkeo a la imagen del pdf  -->
-	<a href="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2017/05/escaneo-la-mudanza-de-los-poderes.pdf"><img src="https://descargarlibrosenpdf.wordpress.com/wp-content/uploads/2017/05/la-mudanza-de-los-poderes.jpg?w=392" width="250"> </a>
 
 	<script type="text/javascript" src="scripts.js"></script>
 	<footer>
 		<p>Bibliofy 2024</p>
 	</footer>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<!-- <script src="/static/js/bootstrap.min.js"></script> -->
+	<script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
