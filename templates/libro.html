@@ -34,6 +34,18 @@
 		text-align: center;
 		background-color: white;
 	}
+	#lista_comentarios {
+		list-style: none;
+	}
+	#lista_comentarios li{
+		margin-top: 10px;
+	}
+	#cargar_comentarios {
+		background-color: lightsteelblue;
+		font-weight: bolder;
+		border-radius: 5px;
+		border: 1px solid #e0e0e0;
+	}
 	</style>
 </head>
 <body>
@@ -59,9 +71,9 @@
 				</a>
   
 				<ul class="dropdown-menu">
-				  <li><a class="dropdown-item" href="libros">Libros</a></li>
-				  <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
-				  <li><a class="dropdown-item" href="examenes">Exámenes</a></li>
+				  <li><a class="dropdown-item" href="/libros">Libros</a></li>
+				  <li><a class="dropdown-item" href="/apuntes">Apuntes</a></li>
+				  <li><a class="dropdown-item" href="/examenes">Exámenes</a></li>
 				</ul>
 			  </li>
 			</ul>
@@ -80,11 +92,11 @@
 	<ul>
 		<h6>Autor: {{data.autor}}</h6>
 		<h6>{{data.descripcion}}</h6>
-		<p id="puntuacion">Puntuacion:
+		<p id="puntuacion">Puntuación:
 			<script>
 			function handle_response_puntuacion(data){
 				if (!data){
-				alert('Error al cargar puntuacion')
+				alert('Error al cargar puntuación')
 					window.location.href = `http://127.0.0.1:5000/`
 				}else{
 					
@@ -92,7 +104,7 @@
 					let puntuacion = document.getElementById('puntuacion')
 				
 					let p = document.createElement('p')
-					if (texto != "No tiene puntuacion"){
+					if (texto != "Sin puntuación"){
 						const estrellas=parseInt(texto)
 						texto=""
 						for (let i=0;i<estrellas;i++){
@@ -162,7 +174,8 @@
 	
     
 	<ul id='lista_comentarios'></ul>
-	
+		
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 	<script>
 
