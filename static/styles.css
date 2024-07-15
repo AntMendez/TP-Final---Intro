@@ -89,3 +89,9 @@ body {
 	border-radius: 5px;
 	border: 1px solid #e0e0e0;
 }
+#contenedor_libros {
+	background-color: lightsteelblue;
+}
+.trash {
+	font-size: large;
+}
