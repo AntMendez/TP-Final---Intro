@@ -125,7 +125,7 @@ def get_playlist(nombre_playlist):
 @app.route("/playlists/<nombre_playlist>", methods=['POST'])
 def agregar_libro_a_playlist(nombre_playlist):
     try:
-        id_libro = request.json.id_libro
+        id_libro = request.json.get('id_libro')
         playlist = Playlist(id_libro=id_libro,nombre=nombre_playlist)
         db.session.add(playlist)
         db.session.commit()
@@ -139,8 +139,8 @@ def agregar_libro_a_playlist(nombre_playlist):
 @app.route("/playlists/<nombre_playlist>", methods=['DELETE'])
 def remover_libro_de_playlist(nombre_playlist):
     try:
-        id_libro = request.json.id_libro
-        Playlist.query.filter_by(id_libro=id_libro,nombre=nombre_playlist).first().delete()
+        id_libro = request.json.get('id_libro')
+        Playlist.query.filter_by(id_libro=id_libro,nombre=nombre_playlist).delete()
         db.session.commit()
         return jsonify({'success':'El libro ' +id_libro+' fue removido exitosamente.'}), 200
     except Exception as error:
@@ -148,12 +148,13 @@ def remover_libro_de_playlist(nombre_playlist):
         return jsonify({'message': 'Internal server error'}), 500
 
 @app.route("/playlists", methods=['DELETE'])
-def eliminar_playlist(nombre_playlist):
+def eliminar_playlist():
     try:
-        nombre_playlist = request.json.nombre_playlist
-        Playlist.query.filter_by(nombre=nombre_playlist).delete()
+        data= request.json
+        nombre=data.get('nombre')
+        Playlist.query.filter_by(nombre=nombre).delete()
         db.session.commit()
-        return jsonify({'success':'La playlist' +nombre_playlist+' fue borrada exitosamente.'}),200
+        return jsonify({'success':'La playlist' +nombre+' fue borrada exitosamente.'}),200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -329,6 +330,7 @@ def agregar_puntuacion_by_id(id_libro):
 @app.route('/<categoria>')
 def get_libro_by_categoria(categoria):
     try:
+        if (categoria not in ['libros','apuntes','examenes']):raise ValueError
         libros=Libro.query.filter_by(categoria=categoria)
         libros_data=[]
         for libro in libros:
@@ -345,7 +347,7 @@ def get_libro_by_categoria(categoria):
         return render_template('libros.html',data=libros_data)
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
+        return jsonify({'message': 'Internal server error: la url "/'+categoria+'" no existe'}), 500
     
 @app.route('/catalogo/<id_libro>')
 def get_libro_by_id(id_libro):
