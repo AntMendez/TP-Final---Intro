@@ -178,32 +178,158 @@
     </ul>
 
 <script>
-        function handle_response_crear_playlist(data){
-            if(data){
-                window.location.href=`http://127.0.0.1:5000/playlists`
-            }else{alert('Error al crear playlist')}
-        }
+  function handle_response_remover_libro(data){
+    if(data){
+            window.location.href=`http://127.0.0.1:5000/playlists`
+        }else{alert('Error al remover libro de la playlist')}
 
-        function crear_playlist(event){
-            event.preventDefault()
-            const formData = new FormData(event.target)
-			const nombre = formData.get("nombre")
-            console.log(nombre)
-			const id_libro = formData.get("opciones_libros")
-            console.log(id_libro)
-            fetch(`http://127.0.0.1:5000/playlists`,{
-				method: "POST",
-				headers: {
-					"Content-Type":"application/json"
-				},body:JSON.stringify({
-					id_libro:id_libro,
-					nombre:nombre
-					})	
-			})
-			.then((res)=>res.json())
-			.then(handle_response_crear_playlist)
-			.catch((error)=> console.log("ERROR",error))
-		}
+  }
+
+  function remover_libro(event,nombre){
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const id_libro = formData.get("opciones_playlist_3")
+    console.log(id_libro)
+    fetch(`http://127.0.0.1:5000/playlists/`+nombre,{
+        method: "DELETE",
+        headers: {
+            "Content-Type":"application/json"
+        },body:JSON.stringify({
+            id_libro:id_libro
+            })	
+    })
+    .then((res)=>res.json())
+    .then(handle_response_remover_libro)
+    .catch((error)=> console.log("ERROR",error))
+    
+  }
+
+    function get_nombre_playlist(modal){
+      return document.getElementById(modal).getAttribute("value")
+    }
+    function update_select(nombre){
+      
+      console.log(nombre)
+      function handle_response_select_remover_libro(data){
+        console.log(data)
+          if(!data){
+              
+              alert('Error al remover libro a playlist')
+              window.location.href=`http://127.0.0.1:5000/`
+          }else{
+              const select=document.getElementById('opciones_playlist_3')
+              for (var i = 0; i < data.playlist.length; i++){
+
+                  const opcion = document.createElement('option')
+                  opcion.innerText= data.playlist[i].nombre
+                  opcion.setAttribute('value',data.playlist[i].id)
+                  select.appendChild(opcion)
+              } 
+          }
+
+      }
+
+      fetch(`http://127.0.0.1:5000/playlists/`+nombre+'/catalogo')
+      .then((res)=>res.json())
+      .then(handle_response_select_remover_libro)
+      .catch((error)=> console.log('ERROR',error))
+      }
+
+    function modal_playlist_agregar(nombre){
+        console.log(nombre)
+        const modal = document.getElementById('exampleModal2')
+        modal.setAttribute('value',nombre)
+                
+        let playlist_nombre_1 = document.getElementById("exampleModal2").getAttribute('value')
+        let titulo_agregar= document.getElementById("titulo_playlist_1")
+        titulo_agregar.innerText=playlist_nombre_1
+        console.log(playlist_nombre_1)
+        
+ 
+    }
+    function modal_playlist_remover(nombre){
+        
+        const modal = document.getElementById('exampleModal3')
+        modal.setAttribute('value',nombre)
+        let playlist_nombre_2 = document.getElementById("exampleModal3").getAttribute('value')
+        let titulo_remover= document.getElementById("titulo_playlist_2")
+        titulo_remover.innerText=playlist_nombre_2
+        
+        update_select(playlist_nombre_2) 
+          
+    }
+
+    function handle_response_agregar_libro(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/playlists`
+        }else{alert('Error al agregar libro a la playlist')}
+    
+    }
+
+    function agregar_libro(event,nombre){
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        const id_libro = formData.get("opciones_libros_2")
+        console.log(nombre+'123')
+        fetch(`http://127.0.0.1:5000/playlists/`+nombre,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                id_libro:id_libro
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_agregar_libro)
+        .catch((error)=> console.log("ERROR",error))
+    }
+   
+    function handle_response_eliminar_playlist(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/playlists`
+        }else{alert('Error al borrar la playlist')}
+    }
+    function eliminar_playlist(event,nombre){
+        event.preventDefault()
+        confirmacion =confirm('¿Está seguro de querer borrar la playlist?')
+        if(!confirmacion){return}
+        fetch(`http://127.0.0.1:5000/playlists`,{
+            method: "DELETE",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                nombre:nombre
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_eliminar_playlist)
+        .catch((error)=> console.log("ERROR",error))
+    }  
+
+    function handle_response_crear_playlist(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/playlists`
+        }else{alert('Error al crear playlist')}
+    }
+
+    function crear_playlist(event){
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        const nombre = formData.get("nombre")
+        const id_libro = formData.get("opciones_libros")
+        fetch(`http://127.0.0.1:5000/playlists`,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                id_libro:id_libro,
+                nombre:nombre
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_crear_playlist)
+        .catch((error)=> console.log("ERROR",error))
+    }
 
     </script>
 
