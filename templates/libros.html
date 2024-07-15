@@ -27,6 +27,22 @@
 		#btn-subir:hover {
 			color: black;
 		}
+		footer {
+		text-align: center;
+		background-color: white;
+		}
+		.title {
+			text-align: center;
+			text-transform: uppercase;
+			font-weight: bolder;
+			background-color: lightgray;
+		}
+		.card-title {
+			text-align: center;
+		}
+		.card {
+		}
+		
 	</style>
 
 </head>
@@ -44,7 +60,7 @@
 			  </li>
   
 			  <li class="nav-item">
-				<a class="nav-link" href="#">Playlist</a>
+				<a class="nav-link" href="/playlist">Playlist</a>
 			  </li>
   
 			  <li class="nav-item dropdown">
@@ -53,9 +69,9 @@
 				</a>
   
 				<ul class="dropdown-menu">
-				  <li><a class="dropdown-item" href="libros">Libros</a></li>
-				  <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
-				  <li><a class="dropdown-item" href="examenes">Examenes</a></li>
+				  <li><a class="dropdown-item" href="/libros">Libros</a></li>
+				  <li><a class="dropdown-item" href="/apuntes">Apuntes</a></li>
+				  <li><a class="dropdown-item" href="/examenes">Examenes</a></li>
 				</ul>
 			  </li>
 			</ul>
@@ -65,26 +81,20 @@
 		  </div>
 		</div>
 	</nav>
-	<div class=" border border-black-subtle rounded-2 mt-5 mx-5 bg-success p-2 text-dark bg-opacity-10 ">
-		<h1 class="title">Archivos</h1>
+	<br>
+	<h1 class="title">Archivos</h1>
+	<div class="border-black-subtle rounded-2 mt-5 mx-5 p-2 text-dark bg-opacity-10" id="contenedor_libros">
 
 		<div class="container">
 			<div class="row g-4">
 			{% for d in data %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
 					<a><div class="card">
-					  <div class="card-body">
-					    <h5 class="card-title">{{d.nombre}}</h5>
-					  </div>
-					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item">Autor: {{d.autor}}</li>
-					    <li class="list-group-item">Tipo: {{d.categoria}}</li>
-					  </ul>
+						<div id="img-libro">
+							<img src="{{d.img}}" class="text-center card-img-left" height="200px" width="155px">
+						</div>
 					  <div class="card-body">
 					    <a href="/catalogo/{{d.id}}" class="card-link">Más info...</a>
-					  </div>
-					  <div id="img-libro">
-					  	<img src="{{d.img}}" class="text-center card-img-left" height="250px">
 					  </div>
 					</div></a>
 				</div>
@@ -95,6 +105,8 @@
 
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
+<footer>
+	<p>Bibliofy 2024</p>
+</footer>
 </html>
