@@ -254,7 +254,24 @@ def borrar_libro(id_libro):
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    try:
+        libros_data=[]
+        libros=Libro.query.all()
+        for libro in libros:
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            libros_data.append(libro_data)
+        return render_template('index.html',data=libros_data[::-1])
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 
 @app.route('/comentarios/<id_libro>')
 def get_comentarios_by_id(id_libro):
@@ -293,7 +310,7 @@ def agregar_comentarios(id_libro):
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
-""""""            
+          
 @app.route('/puntuaciones/<id_libro>')
 def get_puntuacion_by_id(id_libro):   
     try:
