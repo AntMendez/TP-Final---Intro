@@ -20,7 +20,6 @@ def get_playlists_todas():
         playlists_data=[]
         playlists_nombres=set()
         for playlist in playlists:
-            print(playlist.nombre)
             if not (playlist.nombre) in playlists_nombres:
                 playlist_data = {
                     'id':playlist.id,
@@ -41,7 +40,6 @@ def get_playlists():
         playlists_data=[]
         playlists_nombres=set()
         for playlist in playlists:
-            print(playlist.nombre)
             if not (playlist.nombre) in playlists_nombres:
                 playlist_data = {
                     'id':playlist.id,
@@ -50,7 +48,6 @@ def get_playlists():
                 playlists_nombres.add(playlist.nombre)
                 playlists_data.append(playlist_data)
         #return jsonify({'playlists':playlists_data}),200
-        print(playlists_data)
         return render_template('playlists.html',data=playlists_data)
     
     except Exception as error:
@@ -63,16 +60,12 @@ def get_playlists():
 def crear_playlist():
     try:
         data= request.json
-        print(data)
 
         nombre= data.get('nombre')
-        print(nombre)
 
         id_libro = data.get('id_libro')
-        print(id_libro)
 
         playlist= Playlist(id_libro=id_libro,nombre=nombre)
-        print(playlist)
         db.session.add(playlist)
         db.session.commit()
 
@@ -81,6 +74,29 @@ def crear_playlist():
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
+@app.route("/playlists/<nombre_playlist>/catalogo")
+def get_playlist_catalogo(nombre_playlist):
+    try:
+        query_playlist= Playlist.query.filter_by(nombre=nombre_playlist)
+        playlist_data=[]
+        for libro_playlist in query_playlist:
+            libro=Libro.query.filter_by(id=libro_playlist.id_libro).first()
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            playlist_data.append(libro_data)
+            
+        return jsonify({'playlist':playlist_data})
+        #return render_template('libros.html',data=playlist_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 @app.route("/playlists/<nombre_playlist>")
 def get_playlist(nombre_playlist):
     try:
@@ -109,7 +125,7 @@ def get_playlist(nombre_playlist):
 @app.route("/playlists/<nombre_playlist>", methods=['POST'])
 def agregar_libro_a_playlist(nombre_playlist):
     try:
-        id_libro = request.json.id_libro
+        id_libro = request.json.get('id_libro')
         playlist = Playlist(id_libro=id_libro,nombre=nombre_playlist)
         db.session.add(playlist)
         db.session.commit()
@@ -123,8 +139,8 @@ def agregar_libro_a_playlist(nombre_playlist):
 @app.route("/playlists/<nombre_playlist>", methods=['DELETE'])
 def remover_libro_de_playlist(nombre_playlist):
     try:
-        id_libro = request.json.id_libro
-        Playlist.query.filter_by(id_libro=id_libro,nombre=nombre_playlist).first().delete()
+        id_libro = request.json.get('id_libro')
+        Playlist.query.filter_by(id_libro=id_libro,nombre=nombre_playlist).delete()
         db.session.commit()
         return jsonify({'success':'El libro ' +id_libro+' fue removido exitosamente.'}), 200
     except Exception as error:
@@ -132,12 +148,13 @@ def remover_libro_de_playlist(nombre_playlist):
         return jsonify({'message': 'Internal server error'}), 500
 
 @app.route("/playlists", methods=['DELETE'])
-def eliminar_playlist(nombre_playlist):
+def eliminar_playlist():
     try:
-        nombre_playlist = request.json.nombre_playlist
-        Playlist.query.filter_by(nombre=nombre_playlist).delete()
+        data= request.json
+        nombre=data.get('nombre')
+        Playlist.query.filter_by(nombre=nombre).delete()
         db.session.commit()
-        return jsonify({'success':'La playlist' +nombre_playlist+' fue borrada exitosamente.'}),200
+        return jsonify({'success':'La playlist' +nombre+' fue borrada exitosamente.'}),200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -237,7 +254,24 @@ def borrar_libro(id_libro):
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    try:
+        libros_data=[]
+        libros=Libro.query.all()
+        for libro in libros:
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            libros_data.append(libro_data)
+        return render_template('index.html',data=libros_data[::-1])
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 
 @app.route('/comentarios/<id_libro>')
 def get_comentarios_by_id(id_libro):
@@ -276,7 +310,7 @@ def agregar_comentarios(id_libro):
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
-""""""            
+          
 @app.route('/puntuaciones/<id_libro>')
 def get_puntuacion_by_id(id_libro):   
     try:
@@ -313,6 +347,7 @@ def agregar_puntuacion_by_id(id_libro):
 @app.route('/<categoria>')
 def get_libro_by_categoria(categoria):
     try:
+        if (categoria not in ['libros','apuntes','examenes']):raise ValueError
         libros=Libro.query.filter_by(categoria=categoria)
         libros_data=[]
         for libro in libros:
@@ -329,7 +364,7 @@ def get_libro_by_categoria(categoria):
         return render_template('libros.html',data=libros_data)
     except Exception as error:
         print('Error', error)
-        return jsonify({'message': 'Internal server error'}), 500
+        return jsonify({'message': 'Internal server error: la url "/'+categoria+'" no existe'}), 500
     
 @app.route('/catalogo/<id_libro>')
 def get_libro_by_id(id_libro):
