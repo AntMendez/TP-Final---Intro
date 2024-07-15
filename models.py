@@ -26,8 +26,8 @@ class Comentario(db.Model):
 	id_libro = db.Column(db.Integer, db.ForeignKey('libros.id'))
 	comentarios = db.Column(db.String(255), nullable=False)
 
-class Playlist(db.Model):
-	_tablename__ = 'playlists'
+class Coleccion(db.Model):
+	_tablename__ = 'colecciones'
 	id = db.Column(db.Integer, primary_key=True)
 	id_libro = db.Column(db.Integer, db.ForeignKey('libros.id'))
 	nombre = db.Column(db.String(255), nullable=False)

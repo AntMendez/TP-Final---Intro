@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Playlists</title>
+	<title>Colecciones</title>
 	<link rel="stylesheet" href="/static/styles.css"> 
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -26,7 +26,7 @@
 	        </li>
 
 	        <li class="nav-item">
-	          <a class="nav-link" href="/playlists">Playlist</a>
+	          <a class="nav-link" href="/colecciones">Coleccion</a>
 	        </li>
 
 	        <li class="nav-item dropdown">
@@ -56,7 +56,7 @@
       <!-- Button trigger modal -->
     <div class="container my-3">
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Crear nueva playlist
+        Crear nueva coleccion
       </button>
     </div>
   </div>
@@ -65,10 +65,10 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Playlist Nueva</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Coleccion Nueva</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form onsubmit="crear_playlist(event)">
+        <form onsubmit="crear_coleccion(event)">
         <div class="modal-body">
         
           <p><label>Nombre: </label><input class="form-control" name="nombre"></input></p>
@@ -113,7 +113,7 @@
 
 <!---
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-    Agregar libro a playlist
+    Agregar libro a coleccion
   </button>
   
 --->
@@ -123,14 +123,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una playlist</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una coleccion</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
        
-        <form onsubmit="agregar_libro(event,get_nombre_playlist('exampleModal2') )">
+        <form onsubmit="agregar_libro(event,get_nombre_coleccion('exampleModal2') )">
         <div class="modal-body">
             
-          <p><label>Selecciona un libro para agregar a la playlist "<label id="titulo_playlist_1"></label>":
+          <p><label>Selecciona un libro para agregar a la coleccion "<label id="titulo_coleccion_1"></label>":
             
             </label><select id="opciones_libros_2"name="opciones_libros_2">
             <script>
@@ -170,7 +170,7 @@
 <!-- Button trigger modal -->
 <!--
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
-    Remover libro de playlist
+    Remover libro de coleccion
   </button>
   
 --> 
@@ -180,15 +180,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un libro  una playlist</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un libro  una coleccion</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form onsubmit="remover_libro(event,get_nombre_playlist('exampleModal3'))">
+        <form onsubmit="remover_libro(event,get_nombre_coleccion('exampleModal3'))">
 
         <div class="modal-body">
         
-          <p><label>Selecciona un libro a remover de la playlist "<label id="titulo_playlist_2">":</label></label>
-            <select id="opciones_playlist_3"name="opciones_playlist_3"></select></p>
+          <p><label>Selecciona un libro a remover de la coleccion "<label id="titulo_coleccion_2">":</label></label>
+            <select id="opciones_coleccion_3"name="opciones_coleccion_3"></select></p>
         
 
         </div>
@@ -206,13 +206,13 @@
 <!----------------->
   <div class="container border rounded-2 bg-body-tertiary my-3">
 
-    <ul class="list-group" id="playlists"><h4>Lista de playlists</h4>
+    <ul class="list-group" id="colecciones"><h4>Lista de colecciones</h4>
        {% for d in data %}
         <div>
-            <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="playlists/{{d.nombre}}">{{d.nombre}}</a></li>
-            <button onclick="modal_playlist_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar libro</button>
-            <button onclick="modal_playlist_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover libro</button>
-            <button onclick="eliminar_playlist(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
+            <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
+            <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar libro</button>
+            <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover libro</button>
+            <button onclick="eliminar_coleccion(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
         </div>    
         {% endfor %}
 
@@ -221,17 +221,17 @@
 <script>
   function handle_response_remover_libro(data){
     if(data){
-            window.location.href=`http://127.0.0.1:5000/playlists`
-        }else{alert('Error al remover libro de la playlist')}
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al remover libro de la coleccion')}
 
   }
 
   function remover_libro(event,nombre){
     event.preventDefault()
     const formData = new FormData(event.target)
-    const id_libro = formData.get("opciones_playlist_3")
+    const id_libro = formData.get("opciones_coleccion_3")
     console.log(id_libro)
-    fetch(`http://127.0.0.1:5000/playlists/`+nombre,{
+    fetch(`http://127.0.0.1:5000/colecciones/`+nombre,{
         method: "DELETE",
         headers: {
             "Content-Type":"application/json"
@@ -245,7 +245,7 @@
     
   }
 
-    function get_nombre_playlist(modal){
+    function get_nombre_coleccion(modal){
       return document.getElementById(modal).getAttribute("value")
     }
     function update_select(nombre){
@@ -255,55 +255,55 @@
         console.log(data)
           if(!data){
               
-              alert('Error al remover libro a playlist')
+              alert('Error al remover libro a coleccion')
               window.location.href=`http://127.0.0.1:5000/`
           }else{
-              const select=document.getElementById('opciones_playlist_3')
-              for (var i = 0; i < data.playlist.length; i++){
+              const select=document.getElementById('opciones_coleccion_3')
+              for (var i = 0; i < data.coleccion.length; i++){
 
                   const opcion = document.createElement('option')
-                  opcion.innerText= data.playlist[i].nombre
-                  opcion.setAttribute('value',data.playlist[i].id)
+                  opcion.innerText= data.coleccion[i].nombre
+                  opcion.setAttribute('value',data.coleccion[i].id)
                   select.appendChild(opcion)
               } 
           }
 
       }
 
-      fetch(`http://127.0.0.1:5000/playlists/`+nombre+'/catalogo')
+      fetch(`http://127.0.0.1:5000/colecciones/`+nombre+'/catalogo')
       .then((res)=>res.json())
       .then(handle_response_select_remover_libro)
       .catch((error)=> console.log('ERROR',error))
       }
 
-    function modal_playlist_agregar(nombre){
+    function modal_coleccion_agregar(nombre){
         console.log(nombre)
         const modal = document.getElementById('exampleModal2')
         modal.setAttribute('value',nombre)
                 
-        let playlist_nombre_1 = document.getElementById("exampleModal2").getAttribute('value')
-        let titulo_agregar= document.getElementById("titulo_playlist_1")
-        titulo_agregar.innerText=playlist_nombre_1
-        console.log(playlist_nombre_1)
+        let coleccion_nombre_1 = document.getElementById("exampleModal2").getAttribute('value')
+        let titulo_agregar= document.getElementById("titulo_coleccion_1")
+        titulo_agregar.innerText=coleccion_nombre_1
+        console.log(coleccion_nombre_1)
         
  
     }
-    function modal_playlist_remover(nombre){
+    function modal_coleccion_remover(nombre){
         
         const modal = document.getElementById('exampleModal3')
         modal.setAttribute('value',nombre)
-        let playlist_nombre_2 = document.getElementById("exampleModal3").getAttribute('value')
-        let titulo_remover= document.getElementById("titulo_playlist_2")
-        titulo_remover.innerText=playlist_nombre_2
+        let coleccion_nombre_2 = document.getElementById("exampleModal3").getAttribute('value')
+        let titulo_remover= document.getElementById("titulo_coleccion_2")
+        titulo_remover.innerText=coleccion_nombre_2
         
-        update_select(playlist_nombre_2) 
+        update_select(coleccion_nombre_2) 
           
     }
 
     function handle_response_agregar_libro(data){
         if(data){
-            window.location.href=`http://127.0.0.1:5000/playlists`
-        }else{alert('Error al agregar libro a la playlist')}
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al agregar libro a la coleccion')}
     
     }
 
@@ -312,7 +312,7 @@
         const formData = new FormData(event.target)
         const id_libro = formData.get("opciones_libros_2")
         console.log(nombre+'123')
-        fetch(`http://127.0.0.1:5000/playlists/`+nombre,{
+        fetch(`http://127.0.0.1:5000/colecciones/`+nombre,{
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -325,16 +325,16 @@
         .catch((error)=> console.log("ERROR",error))
     }
    
-    function handle_response_eliminar_playlist(data){
+    function handle_response_eliminar_coleccion(data){
         if(data){
-            window.location.href=`http://127.0.0.1:5000/playlists`
-        }else{alert('Error al borrar la playlist')}
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al borrar la coleccion')}
     }
-    function eliminar_playlist(event,nombre){
+    function eliminar_coleccion(event,nombre){
         event.preventDefault()
-        confirmacion =confirm('¿Está seguro de querer borrar la playlist?')
+        confirmacion =confirm('¿Está seguro de querer borrar la coleccion?')
         if(!confirmacion){return}
-        fetch(`http://127.0.0.1:5000/playlists`,{
+        fetch(`http://127.0.0.1:5000/colecciones`,{
             method: "DELETE",
             headers: {
                 "Content-Type":"application/json"
@@ -343,22 +343,22 @@
                 })	
         })
         .then((res)=>res.json())
-        .then(handle_response_eliminar_playlist)
+        .then(handle_response_eliminar_coleccion)
         .catch((error)=> console.log("ERROR",error))
     }  
 
-    function handle_response_crear_playlist(data){
+    function handle_response_crear_coleccion(data){
         if(data){
-            window.location.href=`http://127.0.0.1:5000/playlists`
-        }else{alert('Error al crear playlist')}
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al crear coleccion')}
     }
 
-    function crear_playlist(event){
+    function crear_coleccion(event){
         event.preventDefault()
         const formData = new FormData(event.target)
         const nombre = formData.get("nombre")
         const id_libro = formData.get("opciones_libros")
-        fetch(`http://127.0.0.1:5000/playlists`,{
+        fetch(`http://127.0.0.1:5000/colecciones`,{
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -368,7 +368,7 @@
                 })	
         })
         .then((res)=>res.json())
-        .then(handle_response_crear_playlist)
+        .then(handle_response_crear_coleccion)
         .catch((error)=> console.log("ERROR",error))
     }
 
