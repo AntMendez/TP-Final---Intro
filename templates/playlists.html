@@ -162,6 +162,17 @@
 
 
 
+<!----------------->
+
+<ul id="playlists">Lista de playlists
+    
+    {% for d in data %}
+    <div>
+        <li><a href="playlists/{{d.nombre}}">{{d.nombre}}</a></li>
+        <button onclick="modal_playlist_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar libro</button>
+        <button onclick="modal_playlist_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover libro</button>
+        <button onclick="eliminar_playlist(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
+    </div>    
     {% endfor %}
 
     </ul>
