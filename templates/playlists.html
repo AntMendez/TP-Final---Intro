@@ -10,6 +10,7 @@
     
 </head>
 <body>
+    <h1>Playlists</h1>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     
@@ -68,10 +69,14 @@
 <!------------------------------------->
  
 <!-- Button trigger modal -->
- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+
+<!---
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
     Agregar libro a playlist
   </button>
   
+--->
+ 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -80,40 +85,15 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una playlist</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form onsubmit="agregar_libro(event)">
+       
+        <form onsubmit="agregar_libro(event,get_nombre_playlist('exampleModal2') )">
         <div class="modal-body">
-        
-          <p><label>Selecciona una playlist: </label><select id="opciones_playlist_2"name="opciones_playlist_2">
+            
+          <p><label>Selecciona un libro para agregar a la playlist "<label id="titulo_playlist_1"></label>":
+            
+            </label><select id="opciones_libros_2"name="opciones_libros_2">
             <script>
-            function handle_response_playlist(data){
-                if(!data){
-                    alert('Error al agregar libro a playlist')
-                    window.location.href=`http://127.0.0.1:5000/`
-                }else{
-                    console.log(data)
-                    const select=document.getElementById('opciones_playlist_2')
-                    for (var i = 0; i < data.playlists.length; i++){
-                        console.log(data.playlists[i])
-                        console.log(data.playlists[i].nombre)
-                        console.log(data.playlists[i].id)
-                        const opcion = document.createElement('option')
-                        opcion.innerText= data.playlists[i].nombre
-                        opcion.setAttribute('value',data.playlists[i].id)
-                        select.appendChild(opcion)
-                    } 
-                }
-
-            }
-            fetch(`http://127.0.0.1:5000/playlists/todas`)
-            .then((res)=>res.json())
-            .then(handle_response_playlist)
-            .catch((error)=> console.log('ERROR',error))
-        </script>
-      </select></p>
-
-          <p><label>Selecciona un libro: </label><select id="opciones_libros_2"name="opciones_libros_2">
-            <script>
-                function handle_response(data){
+                function handle_response_select_agregar_libro(data){
                     if(!data){
                         alert('Error al cargar libros')
                         window.location.href=`http://127.0.0.1:5000/`
@@ -130,7 +110,7 @@
                 }
                 fetch(`http://127.0.0.1:5000/catalogo/todos`)
 			    .then((res)=>res.json())
-			    .then(handle_response)
+			    .then(handle_response_select_agregar_libro)
 			    .catch((error)=> console.log('ERROR',error))
             </script>
           </select></p>
