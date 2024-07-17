@@ -11,7 +11,10 @@
 	<style>
 	.separar3 {
     box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.3);
-}
+	}
+	body {
+		background-color: lightgrey;
+	}
 	#editar{
 		background-color: lightgoldenrodyellow;
 		width: 75px;
@@ -25,6 +28,7 @@
 		text-align: center;
 		text-transform: uppercase;
 		font-weight: bolder;
+		font: Arial;
 	}
 	.form-control {
 			border-radius: 5px;
@@ -39,7 +43,7 @@
 		background-color: white;
 	}
 	#lista_comentarios {
-		list-style: none;
+		background-color: white;
 	}
 	#lista_comentarios li{
 		margin-top: 10px;
@@ -61,11 +65,12 @@
 	<h1 class="title">{{data.nombre}}</h1>
 	<h3 class="title">{{data.categoria}}</h3>
 	</p>
-	<div class="separar3 container p-3 rounded-2 imagen-info">
+	<div class="separar3 container p-3 rounded-2 imagen-info" style="background-color: white;">
 	<p><a href="/static/source page/{{data.pdf}}.pdf"><img class="separar3 rounded-4" src='/static/source page/{{data.img}}.jpg' width='250px' height='350px'></a>
 	<ul>
-		<h6>Autor: {{data.autor}}</h6>
+		<h6>Por {{data.autor}}</h6>
 		<h6>{{data.descripcion}}</h6>
+		<br>
 		<p id="puntuacion">Puntuación:
 			<script>
 			function handle_response_puntuacion(data){
@@ -139,7 +144,6 @@
 	<form onsubmit="agregar_comentario(event)">
 		<label class="form-label">Enviar un comentario</label>
 		<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
-		<br>
 		<button type="submit" id="boton_libro">Enviar</button>
 	</form>
 	<br>
