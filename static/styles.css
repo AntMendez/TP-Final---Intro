@@ -1,3 +1,6 @@
+* {
+	box-sizing: border-box;
+}
 body {
 	background-color: lightgrey;
 }
@@ -66,20 +69,30 @@ body {
 #describir {
 	height: 80px;
 }
-#btn-subir {
+/* #btn-subir {
 	text-decoration: none;
 	color: grey;
 }
 #btn-subir:hover {
 	color: black;
+} */
+footer {
+	text-align: center;
+	background-color: white;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
 }
+
+
 .imagen-info {
 	display: flex;
 	align-items: center;
-	background-color: white;
+	/* background-color: rgb(173, 207, 239); */
 }
 #sector-inferior {
-	margin-left: 10px;
+	margin-left: 8rem;
+	/* background-color: rgb(173, 207, 239); */
 }
 #boton_libro {
 	background-color: blue;
@@ -89,9 +102,9 @@ body {
 	border-radius: 5px;
 	border: 1px solid #e0e0e0;
 }
-#contenedor_libros {
+/* #contenedor_libros {
 	background-color: lightsteelblue;
-}
+} */
 .trash {
 	font-size: large;
 }
