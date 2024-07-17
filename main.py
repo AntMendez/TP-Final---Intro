@@ -237,20 +237,22 @@ def modificar_libro(id_libro):
 def borrar_libro(id_libro):
     try:
         try:
-            print(Comentario.query.filter_by(id_libro=id_libro).delete())
+            Comentario.query.filter_by(id_libro=id_libro).delete()
+            Coleccion.query.filter_by(id_libro=id_libro).delete()
+
             db.session.commit()
         except Exception as error:
             print('Error', error)
             return jsonify({'message': 'Internal server error'}), 500
         
-        print(Libro.query.filter_by(id=id_libro).delete())
+        Libro.query.filter_by(id=id_libro).delete()
         db.session.commit()
-        return jsonify({'success':'El libro ' +id_libro+' fue borrado exitosamente'}), 500
+        return jsonify({'success':'El libro fue borrado exitosamente'}), 200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-
+######################################################################
 
 @app.route('/')
 def hello_world():
@@ -270,8 +272,10 @@ def hello_world():
             libros_data.append(libro_data)
         return render_template('index.html',data=libros_data[::-1])
     except Exception as error:
-        print('Error', error)
+        print('Error en el /', error)
         return jsonify({'message': 'Internal server error'}), 500
+
+######################################################################
 
 @app.route('/comentarios/<id_libro>')
 def get_comentarios_by_id(id_libro):
@@ -363,7 +367,7 @@ def get_libro_by_categoria(categoria):
             libros_data.append(libro_data)
         return render_template('libros.html',data=libros_data)
     except Exception as error:
-        print('Error', error)
+        print('Error Categoria', error)
         return jsonify({'message': 'Internal server error: la url "/'+categoria+'" no existe'}), 500
     
 @app.route('/catalogo/<id_libro>')
@@ -379,10 +383,10 @@ def get_libro_by_id(id_libro):
             'descripcion': libro.descripcion,
             'categoria': libro.categoria
         }
-        
         return render_template('libro.html',data=libro_data)
+
     except Exception as error:
-        print('Error', error)
+        print('Error catalogo/id', error)
         #return jsonify({'message': 'Internal server error'}), 500
         return redirect('/')
     
@@ -399,7 +403,8 @@ def get_todos_libros():
                 'img': libro.img,
                 'pdf': libro.pdf,
                 'descripcion': libro.descripcion,
-                'categoria': libro.categoria
+                'categoria': libro.categoria,
+                'puntuacion':libro.puntuacion
             }
             libros_data.append(libro_data)
         return jsonify({'libros':libros_data}),200
@@ -421,7 +426,8 @@ def get_libros():
                 'img': libro.img,
                 'pdf': libro.pdf,
                 'descripcion': libro.descripcion,
-                'categoria': libro.categoria
+                'categoria': libro.categoria,
+                'puntuacion' :libro.puntuacion
             }
             libros_data.append(libro_data)
         return render_template('libros.html', data=libros_data)
@@ -455,16 +461,6 @@ def add_libros():
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
-
-# curl -v -X PUT 'http://localhost:5000/catalogo/libros/5'  '{
-#     "nombre": "Diego",
-#     "autor": 27,
-#     "img": 'img_1',
-    # "pdf": 'pdf_1',
-    # "descripcion": 'desc_1',
-    # "categoria": 'catg_1'
-# }'
-
 
 
 if __name__ == '__main__':
