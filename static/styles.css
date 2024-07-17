@@ -91,7 +91,7 @@ footer {
 	/* background-color: rgb(173, 207, 239); */
 }
 #sector-inferior {
-	margin-left: 8rem;
+	margin-left: 2rem;
 	/* background-color: rgb(173, 207, 239); */
 }
 #boton_libro {
@@ -101,6 +101,7 @@ footer {
 	height: 35px;
 	border-radius: 5px;
 	border: 1px solid #e0e0e0;
+	margin-top: 10px;
 }
 /* #contenedor_libros {
 	background-color: lightsteelblue;
