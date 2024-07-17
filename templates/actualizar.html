@@ -39,6 +39,9 @@
 	</style>
 </head>
 <body>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="/static/js/bootstrap.bundle.min.js"></script>
+	
 	{% include "navbar.html" %}
 	
     <h1 class="title">Editar Archivo</h1>
@@ -125,7 +128,7 @@
 			const categoria = formData.get('categoria')
 			const params = window.location.href;
 			console.log(params)
-			const id_libro = params.charAt((params.length)-1)
+			const id_libro = params.split("editar/")[1]
 			console.log(id_libro)
 
 
@@ -153,8 +156,6 @@
 	<footer>
 		<p>Bibliofy 2024</p>
 	</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-	<script src="/static/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>
