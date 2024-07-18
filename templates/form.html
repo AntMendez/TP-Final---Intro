@@ -98,7 +98,9 @@
 			}
 		}
 		function crear_libro(event) {
+
 			event.preventDefault()
+			document.getElementById("btn-publicar").disabled = false;
 			const formData = new FormData(event.target)
 			
 			const nombre = formData.get('nombre')
