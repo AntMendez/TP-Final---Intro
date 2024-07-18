@@ -10,7 +10,7 @@ class Libro(db.Model):
 	autor = db.Column(db.String(255), nullable=False)
 	img = db.Column(db.String(255), nullable=False)
 	pdf = db.Column(db.String(255), nullable=False)
-	descripcion = db.Column(db.String(255), nullable=False)
+	descripcion = db.Column(db.String(511), nullable=False)
 	categoria = db.Column(db.String(255), nullable=False)
 	puntuacion = db.Column(db.Integer,nullable=True)
 
