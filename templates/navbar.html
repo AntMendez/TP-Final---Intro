@@ -25,10 +25,41 @@
                 <li><a class="dropdown-item" href="/examenes">Examenes</a></li>
             </ul>
             </li>
+            <li class="nav-item">
+                <form onsubmit="buscar(event)"class="d-flex" role="search">
+    
+                    <input class="form-control me-2" name="busqueda" type="search" placeholder="Busca algo..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                  </form>
+            </li>
         </ul>
+        
+        <script>
+            function handle_response_buscar(data){
+                if (!data){
+				    alert("Error al intentar buscar")
+			    }
+            }
+
+            function buscar(event){
+                event.preventDefault()
+                const formData = new FormData(event.target)
+                const busqueda = formData.get("busqueda")
+                window.location.href=`http://127.0.0.1:5000/catalogo/filtrar/`+busqueda
+                /*
+                fetch(`http://127.0.0.1:5000/catalogo/filtrar/`+busqueda)
+                .then((res)=> res.json())
+                .then(handle_response_buscar)
+                .catch((error)=> console.log("ERROR",error))
+                */
+            }
+        </script>
+
         <form class="d-flex" role="search">
             <a style="text-decoration: none" class="btn-outline-success" id="btn-subir" type="submit" href="/publicar" ><b>Subir archivo</b> </a> </button>
         </form>
+        
+
         </div>
     </div>
 </nav>
