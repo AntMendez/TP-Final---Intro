@@ -28,12 +28,10 @@
 		text-align: center;
 		background-color: white;
 		}
-		/* .title {
-			text-align: center;
-			text-transform: uppercase;
+		.title {
 			font-weight: bolder;
-			background-color: lightgray;
-		} */
+			background-color: lightsalmon;
+		}
 	</style>
 
 </head>
@@ -44,18 +42,18 @@
 	{% include "navbar.html" %}
 
 
-	<div class="rounded-2 mt-5 mx-5 p-2 text-dark bg-body-tertiary" id="contenedor_libros" >
+	<div class="rounded-2 mt-5 mx-5 p-2 text-dark " style="background-color: lightgray;" id="contenedor_libros" >
 		<h1 class="title text-center">ARCHIVOS</h1>
 		<div class="container">
 			<div class="row g-4">
 			{% for d in data %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
-					<a><div class="card"style="height: auto">
+					<a><div class="card" style="height: auto; display: flex; justify-content: center;">
 						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><img src="/static/source page/{{d.img}}.jpg" class=" mt-2 text-center card-img-left" height="200px" width="155px" ></li>
+							<li class="list-group-item"><img src="/static/source page/{{d.img}}.jpg" class="text-center mt-2 " style="text-align: center" height="200px" width="100%" ></li>
 							<!-- <li class="list-group-item">Titulo: {{d.nombre}}</li>
 							<li class="list-group-item">Autor: {{d.autor}}</li> -->
-							<li class="list-group-item"><a href="/catalogo/{{d.id}}" class="card-link">Más info...</a></li>
+							<li class="list-group-item" style="text-align: center;"><a href="/catalogo/{{d.id}}" class="card-link">Más info...</a></li>
 						  </ul>
 					</div></a>
 				</div>
@@ -66,7 +64,7 @@
 
 	
 </body>
-<footer>
+<!-- <footer>
 	<p>Bibliofy 2024</p>
-</footer>
+</footer> -->
 </html>
