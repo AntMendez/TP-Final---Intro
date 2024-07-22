@@ -240,7 +240,6 @@ def filtrar_by_nombre(nombre):
         busqueda = "%{}%".format(nombre)
         libros=Libro.query.filter(Libro.nombre.ilike(busqueda)).all()
         for libro in libros:
-            print(libro.nombre)
             libro_data ={
                     'id': libro.id,
                     'nombre': libro.nombre,
@@ -254,6 +253,31 @@ def filtrar_by_nombre(nombre):
             libros_data.append(libro_data)
         #return jsonify({'libros':libros_data})
         return render_template('libros.html', data= libros_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@app.route("/catalogo/filtrar_5/<nombre>")
+def filtrar_5_by_nombre(nombre):
+    try:
+        libros_data =[]
+        busqueda = "%{}%".format(nombre)
+        libros=Libro.query.filter(Libro.nombre.ilike(busqueda)).limit(5)
+        for libro in libros:
+            libro_data ={
+                    'id': libro.id,
+                    'nombre': libro.nombre,
+                    'autor': libro.autor,
+                    'img': libro.img,
+                    'pdf': libro.pdf,
+                    'descripcion': libro.descripcion,
+                    'categoria': libro.categoria,
+                    'puntuacion':libro.puntuacion
+                }
+            libros_data.append(libro_data)
+        return jsonify({'libros':libros_data})
+        #return render_template('libros.html', data= libros_data)
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
