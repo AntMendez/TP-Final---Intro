@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,9 +52,9 @@
 			{% for d in data %}
 				<!-- <div class="col-6 col-md-4 col-lg-4 col-xl-2"> -->
 				<div class="col">
-					<a><div class="card">
+					<a><div class="card" style="height: auto">
 						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" ></li>
+							<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" width="155px"></li>
 							<li class="list-group-item">Titulo: {{d.nombre}}</li>
 							<li class="list-group-item">Autor: {{d.autor}}</li>
 							<li class="list-group-item"><a href="/catalogo/{{d.id}}" class="card-link">Más info...</a></li>

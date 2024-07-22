@@ -25,20 +25,46 @@
                 <li><a class="dropdown-item" href="/examenes">Examenes</a></li>
             </ul>
             </li>
-            <li class="nav-item">
-                <form onsubmit="buscar(event)"class="d-flex" role="search">
-    
-                    <input class="form-control me-2" name="busqueda" type="search" placeholder="Busca algo..." aria-label="Search">
+            <li class="nav-item" style="margin-left: 200px;">
+                <form autocomplete="off" onsubmit="buscar(event)"class="d-flex" role="search">
+                    <input autocomplete="false" list="resultados" class="form-control me-2" name="busqueda" id="busqueda" type="search" placeholder="Busca algo..." aria-label="Search" onkeydown="buscar_5(event)">
+                    <datalist id="resultados"></datalist>
                     <button class="btn btn-outline-success" type="submit">Buscar</button>
                   </form>
             </li>
         </ul>
         
         <script>
+            const input_barra = document.querySelector("input");
+            const log = document.getElementById("busqueda");
+
+            input_barra.addEventListener("input", updateValue);
+
+            function updateValue(e) {
+                log.textContent = e.target.value;
+                buscar_5(log.textContent)
+            }
+
             function handle_response_buscar(data){
                 if (!data){
 				    alert("Error al intentar buscar")
-			    }
+                    return
+                }
+                const resultados = document.getElementById("resultados")
+                resultados.replaceChildren([])
+                for (const resultado in data.libros){
+                    const opcion= document.createElement('option')
+                    opcion.innerText=data.libros[resultado].nombre
+                    resultados.appendChild(opcion)
+                }
+            }
+
+            function buscar_5(busqueda){
+               if (!busqueda){return}
+                fetch(`http://127.0.0.1:5000/catalogo/filtrar_5/`+busqueda)
+                .then((res)=> res.json())
+                .then(handle_response_buscar)
+                .catch((error)=> console.log("ERROR",error))
             }
 
             function buscar(event){
