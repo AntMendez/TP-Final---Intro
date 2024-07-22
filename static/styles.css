@@ -80,7 +80,7 @@ footer {
 	text-align: center;
 	background-color: white;
 	width: 100%;
-	position: absolute;
+	position: relative;
 	bottom: 0;
 }
 
@@ -108,4 +108,11 @@ footer {
 } */
 .trash {
 	font-size: large;
+}
+
+.card{
+	transition: all 0.2s;
+}
+.card:hover{
+	transform:scale(1.15);
 }
