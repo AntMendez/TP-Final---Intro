@@ -203,6 +203,47 @@
 
 
 <!----------------->
+<!-- Button trigger modal -->
+
+<!---
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    Agregar libro a coleccion
+  </button>
+  
+--->
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Cambiar nombre de colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <form onsubmit="cambiar_nombre(event,get_nombre_coleccion('exampleModal4') )">
+        <div class="modal-body">
+            
+          <p><label>Cambiar nombre de coleccion "<label id="titulo_coleccion_3"></label>"</p>
+          <p><label>Nuevo nombre: </label><input placeholder="Escribe un nuevo nombre..." id="nuevo_nombre"class="form-control" name="nuevo_nombre"></input></p>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<!----------------->
+
+
+
+
+
   <div class="container border rounded-2 bg-body-tertiary my-3">
 
     <ul class="list-group" id="colecciones"><h4>Lista de colecciones</h4>
@@ -211,13 +252,43 @@
             <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
             <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar libro</button>
             <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover libro</button>
+            <button onclick="modal_coleccion_editar('{{d.nombre}}')"  class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal4">Editar nombre</button>
+
             <button onclick="eliminar_coleccion(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
         </div>    
         {% endfor %}
 
     </ul>
   </div>
+
+
+
 <script>
+  function handle_response_cambiar_nombre(data){
+    if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al editar nombre de la coleccion')}
+  }
+
+  function cambiar_nombre(event,nombre_coleccion){
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const nuevo_nombre = formData.get("nuevo_nombre")
+    console.log(nuevo_nombre)
+    fetch(`http://127.0.0.1:5000/colecciones/`+nombre_coleccion,{
+        method: "PUT",
+        headers: {
+            "Content-Type":"application/json"
+        },body:JSON.stringify({
+            nombre:nuevo_nombre
+            })	
+    })
+    .then((res)=>res.json())
+    .then(handle_response_cambiar_nombre)
+    .catch((error)=> console.log("ERROR",error))
+  }
+
+
   function handle_response_remover_libro(data){
     if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
@@ -297,6 +368,14 @@
         
         update_select(coleccion_nombre_2) 
           
+    }
+    function modal_coleccion_editar(nombre){
+        
+        const modal = document.getElementById('exampleModal4')
+        modal.setAttribute('value',nombre)
+        let coleccion_nombre_3 = document.getElementById("exampleModal4").getAttribute('value')
+        let titulo_editar= document.getElementById("titulo_coleccion_3")
+        titulo_editar.innerText=coleccion_nombre_3
     }
 
     function handle_response_agregar_libro(data){

@@ -134,7 +134,18 @@ def agregar_libro_a_coleccion(nombre_coleccion):
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
 
-
+@app.route("/colecciones/<nombre_coleccion>", methods=['PUT'])
+def editar_nombre_coleccion(nombre_coleccion):
+    try:
+        nombre_nuevo = request.json.get('nombre')
+        colecciones=Coleccion.query.filter_by(nombre=nombre_coleccion)
+        for coleccion in colecciones:
+            coleccion.nombre=nombre_nuevo
+        db.session.commit()
+        return jsonify({'success':'El nombre de la coleccion ' + nombre_coleccion +' fue actualizado exitosamente.'}), 200
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 
 @app.route("/colecciones/<nombre_coleccion>", methods=['DELETE'])
 def remover_libro_de_coleccion(nombre_coleccion):
