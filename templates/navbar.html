@@ -11,7 +11,7 @@
             </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="/colecciones">Coleccion</a>
+            <a class="nav-link" href="/colecciones">Colecciones</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -41,14 +41,19 @@
             const currentTheme = localStorage.getItem('bsTheme') || 'dark';
             htmlElement.setAttribute('data-bs-theme', currentTheme);
             switchElement.checked = currentTheme === 'dark';
+            if(currentTheme === 'dark'){document.getElementById("darkModeSwitchLabel").innerText="Modo oscuro"}else{document.getElementById("darkModeSwitchLabel").innerText="Modo claro"}
+            
 
             switchElement.addEventListener('change', function () {
                 if (this.checked) {
                     htmlElement.setAttribute('data-bs-theme', 'dark');
                     localStorage.setItem('bsTheme', 'dark');
+                    document.getElementById("darkModeSwitchLabel").innerText="Modo oscuro"
+
                 } else {
                     htmlElement.setAttribute('data-bs-theme', 'light');
                     localStorage.setItem('bsTheme', 'light');
+                    document.getElementById("darkModeSwitchLabel").innerText="Modo claro"
                     }
                 });
             });
@@ -107,7 +112,7 @@
         </div>
         <div class="form-check form-switch" style="margin:10px">
             <input class="form-check-input" type="checkbox" id="darkModeSwitch" checked>
-            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            <label class="form-check-label" id="darkModeSwitchLabel" for="darkModeSwitch"></label>
         </div>
            
 
