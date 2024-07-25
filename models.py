@@ -13,6 +13,7 @@ class Libro(db.Model):
 	descripcion = db.Column(db.String(511), nullable=False)
 	categoria = db.Column(db.String(255), nullable=False)
 	puntuacion = db.Column(db.Integer,nullable=True)
+	favorito= db.Column(db.Boolean,nullable=True,)
 
 """ class Puntuacion(db.Model):
 	__tablename__ = 'puntuaciones'
