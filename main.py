@@ -442,7 +442,8 @@ def get_libro_by_id(id_libro):
             'img': libro.img,
             'pdf': libro.pdf,
             'descripcion': libro.descripcion,
-            'categoria': libro.categoria
+            'categoria': libro.categoria,
+            'favorito':libro.favorito
         }
         return render_template('libro.html',data=libro_data)
 
@@ -488,7 +489,8 @@ def get_libros():
                 'pdf': libro.pdf,
                 'descripcion': libro.descripcion,
                 'categoria': libro.categoria,
-                'puntuacion' :libro.puntuacion
+                'puntuacion' :libro.puntuacion,
+                'favorito' :libro.favorito
             }
             libros_data.append(libro_data)
         return render_template('libros.html', data=libros_data)
@@ -501,10 +503,51 @@ def get_libros():
 def nuevo_libros():
     return render_template('form.html')
 
+@app.route('/catalogo/favoritos')
+def get_favoritos():
+    try:
+        libros = Libro.query.filter_by(favorito='true')
+        libros_data = []
+        for libro in libros:
+            libro_data = { 
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria,
+                'favorito':libro.favorito
+                }
+            libros_data.append(libro_data)
+
+        # return jsonify({'favoritos':libros_data}),200
+        return render_template('libros.html',data=libros_data)
+
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message_fav': 'Internal server error'}), 500
+
+@app.route('/catalogo/favoritos/<id_libro>', methods=['PUT'])
+def add_favorio(id_libro):
+    try:
+        data = request.json
+        favorito = data.get('favorito')
+        print('esta en fav?:',favorito)
+        
+        libro = Libro.query.filter_by(id = id_libro).first()
+        libro.favorito = favorito
+        
+        db.session.commit()
+        print('se agrego a fav:',id_libro)
+        return jsonify({'libro': {'id':libro.id, 'name':libro.nombre,'favorito':libro.favorito} }),201
+    
+    except Exception as error:
+        print('Error add_fav', error)
+        return jsonify({'message': 'Internal server error'}), 500
 @app.route('/catalogo', methods=['POST'])
 def add_libros():
     try: 
-
         data= request.json        
         nombre= data.get('nombre')
         autor= data.get('autor')
@@ -512,8 +555,9 @@ def add_libros():
         pdf = data.get('pdf')
         descripcion = data.get('descripcion')
         categoria = data.get('categoria')
+        favorito = False
 
-        nuevo_libro= Libro(nombre=nombre, autor=autor, img=img, pdf=pdf, descripcion=descripcion, categoria=categoria)
+        nuevo_libro= Libro(nombre=nombre, autor=autor, img=img, pdf=pdf, descripcion=descripcion, categoria=categoria,favorito=favorito)
         # print('ID:  ',str(nuevo_libro.id))
         db.session.add(nuevo_libro)
         db.session.commit()
