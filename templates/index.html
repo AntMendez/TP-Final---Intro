@@ -41,18 +41,18 @@
 	{% include "navbar.html" %}	
 	<!-- <a href="/static/source page/pdf-1.pdf"><img src="/static/source page/img-1.webp" height="200px"></a> -->
 
-	<div class="container border border-danger mt-4">
+	<div class="container mt-4">
 		<h1 style="font-size: 5rem;" class="title mt-2">Bienvenidos a <span style="color: red; font-style: italic; ">Bibliofy</span> </h1>
 		<h2 style="font-size: 3rem;" class="text-center" >Aca vas a encontrar libros, apuntes y examenes para aprobar tu carrera  </h2>
-		<div class="container border border-danger  p-4 bg-body-terfont-style: tiary rounded-3">
+		<div class="container   p-4 bg-body-terfont-style: tiary rounded-3">
 			<h3></h3>
 			
 			<h4 class="" >Recientes</h4>
 			<div class="row g-4">
 			{% for d in data %}
 				<!-- <div class="col-6 col-md-4 col-lg-4 col-xl-2"> -->
-				<div class="col">
-					<a><div class="card" style="height: auto">
+				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
+					<a href="/catalogo/{{d.id}}"><div class="card" style="height: auto">
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" width="155px"></li>
 							<li class="list-group-item">Titulo: {{d.nombre}}</li>

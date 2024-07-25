@@ -43,12 +43,12 @@
 
 
 	<div class="rounded-2 mt-5 mx-5 p-2 text-dark " style="background-color: lightgray;" id="contenedor_libros" >
-		<h1 class="title text-center">ARCHIVOS</h1>
+		<h1  class="title text-center">Archivos</h1>		
 		<div class="container">
 			<div class="row g-4">
 			{% for d in data %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
-					<a><div class="card" style="height: auto; display: flex; justify-content: center;">
+					<a href="/catalogo/{{d.id}}"><div class="card" style="height: auto; display: flex; justify-content: center;">
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item"><img src="{{d.img}}" class="text-center mt-2 " style="text-align: center" height="200px" width="100%" ></li>
 							<!-- <li class="list-group-item"><img src="/static/source page/{{d.img}}.jpg" class="text-center mt-2 " style="text-align: center" height="200px" width="100%" ></li> -->
