@@ -14,17 +14,7 @@ body {
 #crear:hover{
 	cursor: pointer;
 }
-#eliminar{
-	margin-left: 5px;
-	background-color: red;
-	color: white;
-	width: 75px;
-	height: 35px;
-	font-weight: bolder;
-}
-#eliminar:hover{
-	cursor: pointer;
-}
+
 #comentario{
 	background-color: white;
 	height: 35px;
