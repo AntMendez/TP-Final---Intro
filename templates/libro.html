@@ -13,9 +13,9 @@
     box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.3);
 	}
 	body {
-		background-color: lightgrey;
+		background-color: rgb(241, 241, 241);
 	}
-	#editar{
+	/* #editar{
 		background-color: lightgoldenrodyellow;
 		width: 75px;
 		height: 35px;
@@ -24,6 +24,17 @@
 	#editar:hover{
 		cursor: pointer;
 	}
+	#eliminar{
+	margin-left: 5px;
+	background-color: red;
+	color: white;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+	}
+	#eliminar:hover{
+		cursor: pointer;
+	} */
 	.title {
 		text-align: center;
 		text-transform: uppercase;
@@ -60,105 +71,132 @@
 	<script src="/static/js/bootstrap.bundle.min.js"></script>
 
 	{% include "navbar.html" %}
-	<div style="background-color: lightskyblue;">
-	<p>
+	<div class="my-3" style="background-color: rgb(195, 226, 245);">
 	<h1 class="title">{{data.nombre}} </h1>
 	<h3 class="title">{{data.categoria}}</h3>
-	</p>
 	</div>
-	<div class="separar3 container p-3 rounded-2 imagen-info" style="background-color: white;">
+
+	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: white;">
 	<!-- <p><a href="/static/source page/{{data.pdf}}.pdf"><img class="separar3 rounded-4" src='/static/source page/{{data.img}}.jpg' width='250px' height='350px'></a> -->
-	<p><a href="{{data.pdf}}"><img class="separar3 rounded-4" src='{{data.img}}' width='250px' height='350px'></a>
-	<ul>
-		<h6>Por {{data.autor}}</h6>
-		<h6>Descripcion: {{data.descripcion}}</h6>
-		<br>
-		<p>Puntuación: <span id="puntuacion"></span>
-			<script>
-			function handle_response_puntuacion(data){
-				if (!data){
-				alert('Error al cargar puntuación')
-					window.location.href = `http://127.0.0.1:5000/`
-				}else{
-					
-					var texto= data.puntuacion
-					let p = document.getElementById('puntuacion')
-					if (texto != "No tiene puntuacion"){
-						const estrellas=parseInt(texto)
-						texto=""
-						for (let i=0;i<estrellas;i++){
-							texto+= "⭐"
+	<a href="{{data.pdf}}"><img class="separar3 rounded-4" src='{{data.img}}'  height='350px'></a>
+		<div class="  container mx-5">
+			<h6>Autor: {{data.autor}}</h6>
+			<h6>Descripcion: {{data.descripcion}}</h6>
+			<br>
+			<p>Puntuación: <span id="puntuacion"></span>
+				<script>
+				function handle_response_puntuacion(data){
+					if (!data){
+					alert('Error al cargar puntuación')
+						window.location.href = `http://127.0.0.1:5000/`
+					}else{
+						
+						var texto= data.puntuacion
+						let p = document.getElementById('puntuacion')
+						if (texto != "No tiene puntuacion"){
+							const estrellas=parseInt(texto)
+							texto=""
+							for (let i=0;i<estrellas;i++){
+								texto+= "⭐"
+							}
 						}
+					
+						p.innerText=texto
+						
 					}
+				}
+
+				function obtener_puntuacion(){
+					fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
+					.then((res)=>res.json())
+					.then(handle_response_puntuacion)
+					.catch((error)=> console.log('ERROR',error))
+				}
 				
-					p.innerText=texto
+				obtener_puntuacion()
+				</script>
+			</p>
+			<p><label for="estrellas">¡Valorá este archivo!</label></p>
+			<form onsubmit="puntuar_libro(event)">
+				<input
+				type="range"
+				name="estrellas"
+				id="estrellas"
+				min="1"
+				max="5"
+				step="1"
+				value="3" />
+				<output style="width:101px" class="estrellas-output" for="estrellas"></output>
+				<br>	
+				<button type="submit" id="boton_libro">Enviar puntuación</button>
+			</form>
+			<script>
+				const price = document.querySelector("#estrellas");
+				const output = document.querySelector(".estrellas-output");
+		
+				price.addEventListener("input", function () {
+					output.textContent=""
+					for (let i=0;i<price.value;i++){
+						output.textContent+= "⭐"
+							}
+					});
+		
+			</script>
+
+			<div id="div_fav">
+				<!-- <p>'{{data.favorito}}' </p> -->
+				<a id="add_fav" onclick="agregar_favorito(event)"><img src="/static/img/add_fav.png" height="35rem"></i></a>
+			</div>
+
+			<script>
+				var fav_bool = `{{data.favorito}}`
+				console.log(fav_bool)
+				var div_fav = document.getElementById('div_fav')
+				console.log(div_fav)			
+				
+				if (fav_bool == "False" ){
+					console.log('es falseee',fav_bool)
+				}
+				else if (fav_bool = "True" ){
+					console.log('es trueee', fav_bool)
+					const button_add_fav = document.getElementById('add_fav')
+					let btn_added_fav =document.createElement('a')
+					let img_add_fav =document.createElement('img')
+					img_add_fav.setAttribute('src','/static/img/added_fav.png')
+					img_add_fav.setAttribute('height','35rem')
+					btn_added_fav.setAttribute('id','added_fav')
+					btn_added_fav.setAttribute('onclick','eliminar_favorito(event)')
+					div_fav.removeChild(button_add_fav)
+					btn_added_fav.appendChild(img_add_fav)
+					div_fav.appendChild(btn_added_fav)
 					
 				}
-			}
-
-			function obtener_puntuacion(){
-				fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
-				.then((res)=>res.json())
-				.then(handle_response_puntuacion)
-				.catch((error)=> console.log('ERROR',error))
-			}
-			
-			obtener_puntuacion()
+				console.log(`{{data.favorito}}`)
 			</script>
-		</p>
-		<p><label for="estrellas">¡Valorá este archivo!</label></p>
-		<form onsubmit="puntuar_libro(event)">
-			<input
-			type="range"
-			name="estrellas"
-			id="estrellas"
-			min="1"
-			max="5"
-			step="1"
-			value="3" />
-			<output style="width:101px" class="estrellas-output" for="estrellas"></output>
-			<br>	
-			<button type="submit" id="boton_libro">Enviar puntuación</button>
-		</form>
-		
-		<script>
-			const price = document.querySelector("#estrellas");
-			const output = document.querySelector(".estrellas-output");
-	
-			price.addEventListener("input", function () {
-				output.textContent=""
-				for (let i=0;i<price.value;i++){
-					output.textContent+= "⭐"
-						}
-				});
-	
-		</script>
-	
-	</ul>
-	<div style="padding:5px;border-radius: 5px; border: 1px solid #e0e0e0;background-color: lightcyan;">
-		<iframe  width="600px" height='350px' src="{{data.pdf}}"></iframe>
-	</div>
-	</p>
-	</div>
-	<div class="container rounded-2 p-3" id="sector-inferior">
-	<button id="eliminar" onclick="eliminar_libro(event)">Eliminar</button>
-	<a href="/editar/{{data.id}}"><button id="editar">Editar</button></a>
-	<br>
-	<br>
-	
-	<form onsubmit="agregar_comentario(event)">
-		<label class="form-label">Enviar un comentario</label>
-		<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
-		<button type="submit" id="boton_libro">Enviar</button>
-	</form>
-	<br>
-	<button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
-	<img src="" alt="" id="imagen_libro">
-	
-    
-	<ul id='lista_comentarios'></ul>
-		
+		</div>
 
+		<div style="padding:4px;border-radius: 5px; border: 1px solid #e0e0e0;background-color: rgb(207, 207, 207);">
+			<iframe  width="600px" height='350px' src="{{data.pdf}}"></iframe>
+		</div>
+	</div>
+
+	<div class="mt-3 container rounded-2 " >
+		<button class="btn btn-danger" id="eliminar" onclick="eliminar_libro(event)">Eliminar</button>
+		<a href="/editar/{{data.id}}"><button class="btn btn-warning" id="editar">Editar</button></a>
+		<br>
+		<br>
+		
+		<form onsubmit="agregar_comentario(event)">
+			<label class="form-label">Enviar un comentario</label>
+			<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
+			<button type="submit" id="boton_libro">Enviar</button>
+		</form>
+		<br>
+		<button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
+		<img src="" alt="" id="imagen_libro">
+		
+		
+		<ul id='lista_comentarios'></ul>
 	<script>
 
 		function handle_response_agregar_comentario(data){
@@ -265,6 +303,56 @@
 			.catch((error)=> console.log('ERROR',error))
 		}
 
+		function handle_response_agregar_favorito(data){
+			if (!data){
+				alert('Error agregar_favorito')
+			}
+			window.location.href = `http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			// alert('Se agrego a favoritos')
+		}
+
+		function handle_response_eliminar_favorito(data){
+			if (!data){
+				alert('Error eliminar_favorito')
+			}
+			window.location.href = `http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			// alert('Se elimino de favoritos')
+		}
+
+		function eliminar_favorito(event){
+			event.preventDefault()
+			const id_libro = "{{data.id}}"
+			fetch(`http://127.0.0.1:5000/catalogo/favoritos/`+ id_libro, {
+				method: "PUT",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					favorito: false ,
+					})												
+				})
+				.then((res)=>res.json())
+				.then(handle_response_eliminar_favorito)
+				.catch((error)=> console.log("ERROR",error))
+		}
+
+		function agregar_favorito(event){
+			event.preventDefault()
+			const id_libro = "{{data.id}}"
+			fetch(`http://127.0.0.1:5000/catalogo/favoritos/`+ id_libro, {
+				method: "PUT",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					favorito: true ,
+					})												
+				})
+				.then((res)=>res.json())
+				.then(handle_response_agregar_favorito)
+				.catch((error)=> console.log("ERROR",error))
+			}
+
 		function eliminar_libro(event){
 			event.preventDefault()
 			var confirmacion = confirm('¿Está seguro de borrar el libro?')
@@ -278,6 +366,7 @@
 			}
 		}
 	</script>
+
 	</div>
 </body>
 <!-- <footer>
