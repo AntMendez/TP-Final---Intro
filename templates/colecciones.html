@@ -13,49 +13,20 @@
 			font-weight: bolder;
 			background-color: lightskyblue;
 		}
+    body {
+      min-height: 100%;
+      min-width: 100%;
+    }
   </style>
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="/static/js/bootstrap.bundle.min.js"></script>
-  
-  <nav class=" border navbar navbar-expand-lg bg-body-tertiary">
-	  <div class="container container-fluid">
-	  	<a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="45" height=""></a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-	        <li class="nav-item">
-	          <a class="nav-link" href="/catalogo">Ver Catálogo</a>
-	        </li>
 
-	        <li class="nav-item">
-	          <a class="nav-link" href="/colecciones">Colecciones</a>
-	        </li>
-
-	        <li class="nav-item dropdown">
-	          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-	            Tipos
-	          </a>
-
-	          <ul class="dropdown-menu">
-	            <li><a class="dropdown-item" href="libros">Libros</a></li>
-	            <li><a class="dropdown-item" href="apuntes">Apuntes</a></li>
-	            <li><a class="dropdown-item" href="examenes">Examenes</a></li>
-	          </ul>
-	        </li>
-	      </ul>
-	      <form class="d-flex" role="search">
-	        <button class="btn btn-outline-success" type="submit"><a href="/publicar" >Publicar</a> </button>
-	      </form>
-	    </div>
-	  </div>
-	</nav>
+  {% include "navbar.html" %}
 
   <div class="container  mt-5">
-      <h1 class="title text-center">COLECCIONES</h1>
+      <h1 class="title text-center text-dark">COLECCIONES</h1>
       
       <!-- Button trigger modal -->
     <div class="container my-3">
@@ -69,7 +40,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Coleccion Nueva</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva colección</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form onsubmit="crear_coleccion(event)">
@@ -127,14 +98,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una coleccion</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una colección</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
        
         <form onsubmit="agregar_libro(event,get_nombre_coleccion('exampleModal2') )">
         <div class="modal-body">
             
-          <p><label>Selecciona un libro para agregar a la coleccion "<label id="titulo_coleccion_1"></label>":
+          <p><label>Selecciona un libro para agregar a la colección "<label id="titulo_coleccion_1"></label>":
             
             </label><select id="opciones_libros_2"name="opciones_libros_2">
             <script>
@@ -184,14 +155,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un libro  una coleccion</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un libro de una colección</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form onsubmit="remover_libro(event,get_nombre_coleccion('exampleModal3'))">
 
         <div class="modal-body">
         
-          <p><label>Selecciona un libro a remover de la coleccion "<label id="titulo_coleccion_2">":</label></label>
+          <p><label>Selecciona un libro a remover de la colección "<label id="titulo_coleccion_2">":</label></label>
             <select id="opciones_coleccion_3"name="opciones_coleccion_3"></select></p>
         
 
@@ -229,7 +200,7 @@
         <form onsubmit="cambiar_nombre(event,get_nombre_coleccion('exampleModal4') )">
         <div class="modal-body">
             
-          <p><label>Cambiar nombre de coleccion "<label id="titulo_coleccion_3"></label>"</p>
+          <p><label>Cambiar nombre de colección "<label id="titulo_coleccion_3"></label>"</p>
           <p><label>Nuevo nombre: </label><input placeholder="Escribe un nuevo nombre..." id="nuevo_nombre"class="form-control" name="nuevo_nombre"></input></p>
             
         </div>
@@ -251,7 +222,7 @@
 
   <div class="container border rounded-2 bg-body-tertiary my-3">
 
-    <ul class="list-group" id="colecciones"><h4>Lista de colecciones</h4>
+    <ul class="list-group" id="colecciones">
        {% for d in data %}
         <div>
             <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
