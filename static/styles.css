@@ -93,13 +93,9 @@ footer {
 	border: 1px solid #e0e0e0;
 	margin-top: 10px;
 }
-/* #contenedor_libros {
-	background-color: lightsteelblue;
-} */
 .trash {
 	font-size: large;
 }
-
 .card{
 	transition: all 0.2s;
 }
