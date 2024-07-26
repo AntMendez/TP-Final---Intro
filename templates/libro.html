@@ -12,9 +12,6 @@
 	.separar3 {
     box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.3);
 	}
-	body {
-		background-color: lightgray;
-	}
 	#editar{
 		font-weight: bolder;
 	}
@@ -38,9 +35,6 @@
 		text-align: center;
 		background-color: white;
 	}
-	#lista_comentarios {
-		background-color: white;
-	}
 	#lista_comentarios li{
 		margin-top: 10px;
 	}
@@ -58,18 +52,18 @@
 
 	{% include "navbar.html" %}
 	<div class="my-3" style="background-color: rgb(195, 226, 245);">
-	<h1 class="title">{{data.nombre}} </h1>
-	<h3 class="title">{{data.categoria}}</h3>
+	<h1 class="title text-dark">{{data.nombre}} </h1>
+	<h3 class="title text-dark">{{data.categoria}}</h3>
 	</div>
 
-	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: white;">
+	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: lightgray;">
 	<!-- <p><a href="/static/source page/{{data.pdf}}.pdf"><img class="separar3 rounded-4" src='/static/source page/{{data.img}}.jpg' width='250px' height='350px'></a> -->
 	<a href="{{data.pdf}}"><img class="separar3 rounded-4" src='{{data.img}}'  height='350px'></a>
 		<div class="  container mx-5">
-			<h6>Autor: {{data.autor}}</h6>
-			<h6>Descripcion: {{data.descripcion}}</h6>
+			<h6 class="text-dark">Por {{data.autor}}</h6>
+			<h6 class="text-dark">{{data.descripcion}}</h6>
 			<br>
-			<p>Puntuación: <span id="puntuacion"></span>
+			<p class="text-dark">Puntuación: <span id="puntuacion"></span>
 				<script>
 				function handle_response_puntuacion(data){
 					if (!data){
@@ -102,7 +96,7 @@
 				obtener_puntuacion()
 				</script>
 			</p>
-			<p><label for="estrellas">¡Valorá este archivo!</label></p>
+			<p class="text-dark"><label for="estrellas">¡Valorá este archivo!</label></p>
 			<form onsubmit="puntuar_libro(event)">
 				<input
 				type="range"
