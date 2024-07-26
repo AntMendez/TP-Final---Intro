@@ -142,7 +142,7 @@ def editar_nombre_coleccion(nombre_coleccion):
         for coleccion in colecciones:
             coleccion.nombre=nombre_nuevo
         db.session.commit()
-        return jsonify({'success':'El nombre de la coleccion ' + nombre_coleccion +' fue actualizado exitosamente.'}), 200
+        return jsonify({'success':'El nombre de la colección ' + nombre_coleccion +' fue actualizado exitosamente.'}), 200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -153,7 +153,7 @@ def remover_libro_de_coleccion(nombre_coleccion):
         id_libro = request.json.get('id_libro')
         Coleccion.query.filter_by(id_libro=id_libro,nombre=nombre_coleccion).delete()
         db.session.commit()
-        return jsonify({'success':'El libro ' +id_libro+' fue removido exitosamente.'}), 200
+        return jsonify({'success':'El archivo ' +id_libro+' fue removido exitosamente.'}), 200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -308,7 +308,7 @@ def borrar_libro(id_libro):
         
         Libro.query.filter_by(id=id_libro).delete()
         db.session.commit()
-        return jsonify({'success':'El libro fue borrado exitosamente'}), 200
+        return jsonify({'success':'El archivo fue borrado exitosamente'}), 200
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
