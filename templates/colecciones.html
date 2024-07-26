@@ -47,7 +47,7 @@
         <div class="modal-body">
         
           <p><label>Nombre: </label><input class="form-control" name="nombre"></input></p>
-          <p><label>Selecciona un libro: </label><select class="form-select" aria-label="Default select example" id="opciones_libros"name="opciones_libros">
+          <p><label>Selecciona un archivo: </label><select class="form-select" aria-label="Default select example" id="opciones_libros"name="opciones_libros">
             <script>
                 function handle_response(data){
                     if(!data){
@@ -98,14 +98,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un libro a una colección</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un archivo a una colección</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
        
         <form onsubmit="agregar_libro(event,get_nombre_coleccion('exampleModal2') )">
         <div class="modal-body">
             
-          <p><label>Selecciona un libro para agregar a la colección "<label id="titulo_coleccion_1"></label>":
+          <p><label>Seleccioná un archivo para agregar a la colección "<label id="titulo_coleccion_1"></label>":
             
             </label><select id="opciones_libros_2"name="opciones_libros_2">
             <script>
@@ -155,14 +155,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un libro de una colección</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un archivo de una colección</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form onsubmit="remover_libro(event,get_nombre_coleccion('exampleModal3'))">
 
         <div class="modal-body">
         
-          <p><label>Selecciona un libro a remover de la colección "<label id="titulo_coleccion_2">":</label></label>
+          <p><label>Seleccioná un archivo a remover de la colección "<label id="titulo_coleccion_2">":</label></label>
             <select id="opciones_coleccion_3"name="opciones_coleccion_3"></select></p>
         
 
@@ -226,8 +226,8 @@
        {% for d in data %}
         <div>
             <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
-            <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar libro</button>
-            <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover libro</button>
+            <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar archivo</button>
+            <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover archivo</button>
             <button onclick="modal_coleccion_editar('{{d.nombre}}')"  class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal4">Editar nombre</button>
 
             <button onclick="eliminar_coleccion(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
@@ -268,7 +268,7 @@
   function handle_response_remover_libro(data){
     if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al remover libro de la colección')}
+        }else{alert('Error al remover archivo de la colección')}
 
   }
 
@@ -301,7 +301,7 @@
         console.log(data)
           if(!data){
               
-              alert('Error al remover libro de colección')
+              alert('Error al remover archivo de colección')
               window.location.href=`http://127.0.0.1:5000/`
           }else{
               const select=document.getElementById('opciones_coleccion_3')
@@ -357,7 +357,7 @@
     function handle_response_agregar_libro(data){
         if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al agregar libro a la colección')}
+        }else{alert('Error al agregar archivo a la colección')}
     
     }
 
