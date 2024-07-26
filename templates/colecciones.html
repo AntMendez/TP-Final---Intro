@@ -243,7 +243,7 @@
   function handle_response_cambiar_nombre(data){
     if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al editar nombre de la coleccion')}
+        }else{alert('Error al editar nombre de la colección')}
   }
 
   function cambiar_nombre(event,nombre_coleccion){
@@ -268,7 +268,7 @@
   function handle_response_remover_libro(data){
     if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al remover libro de la coleccion')}
+        }else{alert('Error al remover libro de la colección')}
 
   }
 
@@ -301,7 +301,7 @@
         console.log(data)
           if(!data){
               
-              alert('Error al remover libro a coleccion')
+              alert('Error al remover libro de colección')
               window.location.href=`http://127.0.0.1:5000/`
           }else{
               const select=document.getElementById('opciones_coleccion_3')
@@ -357,7 +357,7 @@
     function handle_response_agregar_libro(data){
         if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al agregar libro a la coleccion')}
+        }else{alert('Error al agregar libro a la colección')}
     
     }
 
@@ -382,11 +382,11 @@
     function handle_response_eliminar_coleccion(data){
         if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al borrar la coleccion')}
+        }else{alert('Error al borrar la colección')}
     }
     function eliminar_coleccion(event,nombre){
         event.preventDefault()
-        confirmacion =confirm('¿Está seguro de querer borrar la coleccion?')
+        confirmacion =confirm('¿Está seguro de querer borrar la colección?')
         if(!confirmacion){return}
         fetch(`http://127.0.0.1:5000/colecciones`,{
             method: "DELETE",
@@ -404,7 +404,7 @@
     function handle_response_crear_coleccion(data){
         if(data){
             window.location.href=`http://127.0.0.1:5000/colecciones`
-        }else{alert('Error al crear coleccion')}
+        }else{alert('Error al crear colección')}
     }
 
     function crear_coleccion(event){
