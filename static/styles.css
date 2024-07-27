@@ -102,3 +102,6 @@ footer {
 .card:hover{
 	transform:scale(1.15);
 }
+.nav-link {
+	text-align: center;
+}
