@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from  sqlalchemy.sql.expression import func
 from flask import Flask, redirect, url_for, request, render_template, jsonify 
 app = Flask(__name__, static_url_path='/templates')
 from models import db, Libro,  Comentario, Coleccion #,Puntuacion
@@ -12,6 +12,16 @@ app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:123456@lo
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 # curl -X PUT -H "Content-Type":"application/json" -d '{"nombre": "Diego", "autor":"autor_1","img": "img_1","pdf":"pdf_1","descripcion": "desc_1","categoria": "catg_1"}' "http://localhost:5000/catalogo/libros/27" 
+
+@app.route("/catalogo/random")
+def get_libro_random():
+    try:
+        libro = Libro.query.order_by(func.random()).limit(1).first()
+        #return render_template('libro.html',data=libro)
+        return redirect(f'/catalogo/{libro.id}')
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
 
 @app.route("/colecciones/todas")
 def get_colecciones_todas():
