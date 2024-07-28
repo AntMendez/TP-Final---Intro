@@ -105,3 +105,11 @@ footer {
 .nav-link {
 	text-align: center;
 }
+#dado{
+	transition:all 0.3s;
+}
+
+#dado:hover{
+	transform:scale(1.4) rotate(720deg);
+	
+}

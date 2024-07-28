@@ -22,16 +22,18 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Tipos
             </a>
-            <li class="nav-item">
-                <a href="/catalogo/random"  name="dado" type="submit"><img src="/static/img/pngegg.png"  width="50px" height=""></a>
-            </li>
-
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/libros">Libros</a></li>
                 <li><a class="dropdown-item" href="/apuntes">Apuntes</a></li>
                 <li><a class="dropdown-item" href="/examenes">Exámenes</a></li>
             </ul>
-            <li class="nav-item" style="margin-left: 200px;">
+            </li>
+            <li class="nav-item">
+                <a href="/catalogo/random"  type="submit"><img id="dado" src="/static/img/libro_misterioso.png"  width="40px" ></a>
+            </li>
+
+
+            <li class="nav-item" style="margin-left: 150px;">
                 <form autocomplete="off" onsubmit="buscar(event)"class="d-flex" role="search">
                     <input autocomplete="false" list="resultados" class="form-control me-2" name="busqueda" id="busqueda" type="search" placeholder="Busca algo..." aria-label="Search" onkeydown="buscar_5(event)">
                     <datalist id="resultados"></datalist>
