@@ -22,6 +22,29 @@ def get_libro_random():
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
+    
+@app.route("/autores/<autor>")
+def get_libros_por_autor(autor):
+    try:
+        libros = Libro.query.filter_by(autor=autor).all()
+        libros_data=[]
+        for libro in libros:
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria
+            }
+            libros_data.append(libro_data)
+        return render_template('libros.html',data=libros_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+    
+
 
 @app.route("/colecciones/todas")
 def get_colecciones_todas():
