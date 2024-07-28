@@ -501,8 +501,8 @@ def get_libro_by_id(id_libro):
 
     except Exception as error:
         print('Error catalogo/id', error)
-        #return jsonify({'message': 'Internal server error'}), 500
-        return redirect('/')
+        return jsonify({'message': 'El recurso '+id_libro+' no fue encontrado.'}), 500
+        #return redirect('/')
     
 @app.route('/catalogo/todos')#/libros/<categoria> o /<categoria> ---> categoria = libros 
 def get_todos_libros():

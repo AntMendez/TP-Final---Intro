@@ -113,3 +113,23 @@ footer {
 	transform:scale(1.4) rotate(720deg);
 	
 }
+#imagen_favorito{
+	transition: all 0.2s;
+}
+
+#imagen_favorito:hover{
+	transform:scale(1.15)
+}
+
+[data-bs-theme="light"]{
+	
+#contenedor_libros {
+	background-color: lightgray;	
+}	
+}
+[data-bs-theme="dark"]{
+
+	#contenedor_libros {
+	background-color: rgb(58, 58, 58);
+}
+}

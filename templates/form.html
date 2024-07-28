@@ -109,6 +109,9 @@
 			const nombre = formData.get('nombre')
 			const autor = formData.get('autor')
 			const pdf = formData.get('pdf')
+			if (!pdf.includes(".pdf")){
+				alert("pdf invalido")
+				return}
 			const img = formData.get('img')
 			const descripcion = formData.get('descripcion')
 			const categoria = formData.get('categoria')
