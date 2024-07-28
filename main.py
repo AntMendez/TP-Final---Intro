@@ -351,9 +351,12 @@ def borrar_libro(id_libro):
 @app.route('/')
 def hello_world():
     try:
-        libros_data=[]
-        libros=Libro.query.order_by(Libro.id.desc()).limit(10)
-        for libro in libros:
+        libros_recientes_data=[]
+        libros_vistos_data=[]
+
+        libros_recientes=Libro.query.order_by(Libro.id.desc()).limit(12)
+        libros_vistos = Libro.query.order_by(Libro.vistas.desc()).limit(12)
+        for libro in libros_vistos:
             libro_data ={
                 'id': libro.id,
                 'nombre': libro.nombre,
@@ -361,10 +364,23 @@ def hello_world():
                 'img': libro.img,
                 'pdf': libro.pdf,
                 'descripcion': libro.descripcion,
-                'categoria': libro.categoria
+                'categoria': libro.categoria,
+                'vistas':libro.vistas
             }
-            libros_data.append(libro_data)
-        return render_template('index.html',data=libros_data)
+            libros_vistos_data.append(libro_data)
+        for libro in libros_recientes:
+            libro_data ={
+                'id': libro.id,
+                'nombre': libro.nombre,
+                'autor': libro.autor,
+                'img': libro.img,
+                'pdf': libro.pdf,
+                'descripcion': libro.descripcion,
+                'categoria': libro.categoria,
+                'vistas':libro.vistas
+            }
+            libros_recientes_data.append(libro_data)
+        return render_template('index.html',data=[libros_recientes_data,libros_vistos_data])
     except Exception as error:
         print('Error en el /', error)
         return jsonify({'message': 'Internal server error'}), 500
@@ -468,6 +484,8 @@ def get_libro_by_categoria(categoria):
 def get_libro_by_id(id_libro):
     try:
         libro = Libro.query.get(id_libro)
+        libro.vistas += 1
+        db.session.commit()
         libro_data = {
             'id': libro.id,
             'nombre': libro.nombre,
@@ -476,7 +494,8 @@ def get_libro_by_id(id_libro):
             'pdf': libro.pdf,
             'descripcion': libro.descripcion,
             'categoria': libro.categoria,
-            'favorito':libro.favorito
+            'favorito':libro.favorito,
+            'vistas':libro.vistas
         }
         return render_template('libro.html',data=libro_data)
 
