@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Colecciones - Bibliofy</title>
+	<link rel="stylesheet" href="/static/styles.css"> 
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    .title {
+			font-weight: bolder;
+			background-color: lightskyblue;
+		}
+    [data-bs-theme='light']{
+      body {
+      min-height: 100%;
+      min-width: 100%;
+      background-color: lightgray;}
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="/static/js/bootstrap.bundle.min.js"></script>
+
+  {% include "navbar.html" %}
+
+  <div class="container  mt-5">
+      <h1 class="title text-center text-dark">COLECCIONES</h1>
+      
+      <!-- Button trigger modal -->
+    <div class="container my-3">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Crear nueva colección
+      </button>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form onsubmit="crear_coleccion(event)">
+        <div class="modal-body">
+        
+          <p><label>Nombre: </label><input class="form-control" name="nombre"></input></p>
+          <p><label>Selecciona un archivo: </label><select class="form-select" aria-label="Default select example" id="opciones_libros"name="opciones_libros">
+            <script>
+                function handle_response(data){
+                    if(!data){
+                        alert('Error al cargar libros')
+                        window.location.href=`http://127.0.0.1:5000/`
+                    }else{
+                        const select=document.getElementById('opciones_libros')
+                        for (var i = 0; i < data.libros.length; i++){
+                            const opcion = document.createElement('option')
+                            opcion.innerText= data.libros[i].nombre
+                            opcion.setAttribute('value',data.libros[i].id)
+                            select.appendChild(opcion)
+                        } 
+                    }
+
+                }
+                fetch(`http://127.0.0.1:5000/catalogo/todos`)
+			    .then((res)=>res.json())
+			    .then(handle_response)
+			    .catch((error)=> console.log('ERROR',error))
+            </script>
+          </select></p>
+        
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!------------------------------------->
+ 
+<!-- Button trigger modal -->
+
+<!---
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    Agregar libro a coleccion
+  </button>
+  
+--->
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar un archivo a una colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <form onsubmit="agregar_libro(event,get_nombre_coleccion('exampleModal2') )">
+        <div class="modal-body">
+            
+          <p><label>Seleccioná un archivo para agregar a la colección "<label id="titulo_coleccion_1"></label>":
+            
+            </label><select id="opciones_libros_2"name="opciones_libros_2">
+            <script>
+                function handle_response_select_agregar_libro(data){
+                    if(!data){
+                        alert('Error al cargar libros')
+                        window.location.href=`http://127.0.0.1:5000/`
+                    }else{
+                        const select=document.getElementById('opciones_libros_2')
+                        for (var i = 0; i < data.libros.length; i++){
+                            const opcion = document.createElement('option')
+                            opcion.innerText= data.libros[i].nombre
+                            opcion.setAttribute('value',data.libros[i].id)
+                            select.appendChild(opcion)
+                        } 
+                    }
+
+                }
+                fetch(`http://127.0.0.1:5000/catalogo/todos`)
+			    .then((res)=>res.json())
+			    .then(handle_response_select_agregar_libro)
+			    .catch((error)=> console.log('ERROR',error))
+            </script>
+          </select></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<!----------------->
+<!-- Button trigger modal -->
+<!--
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+    Remover libro de coleccion
+  </button>
+  
+--> 
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel3">Remover un archivo de una colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form onsubmit="remover_libro(event,get_nombre_coleccion('exampleModal3'))">
+
+        <div class="modal-body">
+        
+          <p><label>Seleccioná un archivo a remover de la colección "<label id="titulo_coleccion_2">":</label></label>
+            <select id="opciones_coleccion_3"name="opciones_coleccion_3"></select></p>
+        
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+<!----------------->
+<!-- Button trigger modal -->
+
+<!---
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    Agregar libro a coleccion
+  </button>
+  
+--->
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Cambiar nombre de colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <form onsubmit="cambiar_nombre(event,get_nombre_coleccion('exampleModal4') )">
+        <div class="modal-body">
+            
+          <p><label>Cambiar nombre de colección "<label id="titulo_coleccion_3"></label>"</p>
+          <p><label>Nuevo nombre: </label><input placeholder="Escribe un nuevo nombre..." id="nuevo_nombre"class="form-control" name="nuevo_nombre"></input></p>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<!----------------->
+
+
+
+
+
+  <div class="container border rounded-2 bg-body-tertiary my-3">
+
+    <ul class="list-group" id="colecciones">
+       {% for d in data %}
+        <div>
+            <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
+            <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar archivo</button>
+            <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover archivo</button>
+            <button onclick="modal_coleccion_editar('{{d.nombre}}')"  class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal4">Editar nombre</button>
+
+            <button onclick="eliminar_coleccion(event,'{{d.nombre}}')"  class="trash btn btn-danger">🗑</button>
+        </div>    
+        {% endfor %}
+
+    </ul>
+  </div>
+
+
+
+<script>
+  function handle_response_cambiar_nombre(data){
+    if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al editar nombre de la colección')}
+  }
+
+  function cambiar_nombre(event,nombre_coleccion){
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const nuevo_nombre = formData.get("nuevo_nombre")
+    console.log(nuevo_nombre)
+    fetch(`http://127.0.0.1:5000/colecciones/`+nombre_coleccion,{
+        method: "PUT",
+        headers: {
+            "Content-Type":"application/json"
+        },body:JSON.stringify({
+            nombre:nuevo_nombre
+            })	
+    })
+    .then((res)=>res.json())
+    .then(handle_response_cambiar_nombre)
+    .catch((error)=> console.log("ERROR",error))
+  }
+
+
+  function handle_response_remover_libro(data){
+    if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al remover archivo de la colección')}
+
+  }
+
+  function remover_libro(event,nombre){
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const id_libro = formData.get("opciones_coleccion_3")
+    console.log(id_libro)
+    fetch(`http://127.0.0.1:5000/colecciones/`+nombre,{
+        method: "DELETE",
+        headers: {
+            "Content-Type":"application/json"
+        },body:JSON.stringify({
+            id_libro:id_libro
+            })	
+    })
+    .then((res)=>res.json())
+    .then(handle_response_remover_libro)
+    .catch((error)=> console.log("ERROR",error))
+    
+  }
+
+    function get_nombre_coleccion(modal){
+      return document.getElementById(modal).getAttribute("value")
+    }
+    function update_select(nombre){
+      
+      console.log(nombre)
+      function handle_response_select_remover_libro(data){
+        console.log(data)
+          if(!data){
+              
+              alert('Error al remover archivo de colección')
+              window.location.href=`http://127.0.0.1:5000/`
+          }else{
+              const select=document.getElementById('opciones_coleccion_3')
+              for (var i = 0; i < data.coleccion.length; i++){
+
+                  const opcion = document.createElement('option')
+                  opcion.innerText= data.coleccion[i].nombre
+                  opcion.setAttribute('value',data.coleccion[i].id)
+                  select.appendChild(opcion)
+              } 
+          }
+
+      }
+
+      fetch(`http://127.0.0.1:5000/colecciones/`+nombre+'/catalogo')
+      .then((res)=>res.json())
+      .then(handle_response_select_remover_libro)
+      .catch((error)=> console.log('ERROR',error))
+      }
+
+    function modal_coleccion_agregar(nombre){
+        console.log(nombre)
+        const modal = document.getElementById('exampleModal2')
+        modal.setAttribute('value',nombre)
+                
+        let coleccion_nombre_1 = document.getElementById("exampleModal2").getAttribute('value')
+        let titulo_agregar= document.getElementById("titulo_coleccion_1")
+        titulo_agregar.innerText=coleccion_nombre_1
+        console.log(coleccion_nombre_1)
+        
+ 
+    }
+    function modal_coleccion_remover(nombre){
+        
+        const modal = document.getElementById('exampleModal3')
+        modal.setAttribute('value',nombre)
+        let coleccion_nombre_2 = document.getElementById("exampleModal3").getAttribute('value')
+        let titulo_remover= document.getElementById("titulo_coleccion_2")
+        titulo_remover.innerText=coleccion_nombre_2
+        
+        update_select(coleccion_nombre_2) 
+          
+    }
+    function modal_coleccion_editar(nombre){
+        
+        const modal = document.getElementById('exampleModal4')
+        modal.setAttribute('value',nombre)
+        let coleccion_nombre_3 = document.getElementById("exampleModal4").getAttribute('value')
+        let titulo_editar= document.getElementById("titulo_coleccion_3")
+        titulo_editar.innerText=coleccion_nombre_3
+    }
+
+    function handle_response_agregar_libro(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al agregar archivo a la colección')}
+    
+    }
+
+    function agregar_libro(event,nombre){
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        const id_libro = formData.get("opciones_libros_2")
+        console.log(nombre+'123')
+        fetch(`http://127.0.0.1:5000/colecciones/`+nombre,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                id_libro:id_libro
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_agregar_libro)
+        .catch((error)=> console.log("ERROR",error))
+    }
+   
+    function handle_response_eliminar_coleccion(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al borrar la colección')}
+    }
+    function eliminar_coleccion(event,nombre){
+        event.preventDefault()
+        confirmacion =confirm('¿Está seguro de querer borrar la colección?')
+        if(!confirmacion){return}
+        fetch(`http://127.0.0.1:5000/colecciones`,{
+            method: "DELETE",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                nombre:nombre
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_eliminar_coleccion)
+        .catch((error)=> console.log("ERROR",error))
+    }  
+
+    function handle_response_crear_coleccion(data){
+        if(data){
+            window.location.href=`http://127.0.0.1:5000/colecciones`
+        }else{alert('Error al crear colección')}
+    }
+
+    function crear_coleccion(event){
+        event.preventDefault()
+        const formData = new FormData(event.target)
+        const nombre = formData.get("nombre")
+        const id_libro = formData.get("opciones_libros")
+        fetch(`http://127.0.0.1:5000/colecciones`,{
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },body:JSON.stringify({
+                id_libro:id_libro,
+                nombre:nombre
+                })	
+        })
+        .then((res)=>res.json())
+        .then(handle_response_crear_coleccion)
+        .catch((error)=> console.log("ERROR",error))
+    }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/styles.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<title>{{data.nombre}} - Bibliofy</title>
+	<style>
+	.separar3 {
+    box-shadow: 7px 7px 12px 0 rgba(20, 20, 20, 0.3);
+	}
+	#editar{
+		font-weight: bolder;
+	}
+	#eliminar{
+	font-weight: bolder;
+	}
+	.title {
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bolder;
+		font: Arial;
+	}
+	.form-control {
+			border-radius: 5px;
+			border: 1px solid #e0e0e0;
+	}
+	.form-label {
+		font-weight: bolder;
+	}
+	footer {
+		text-align: center;
+		background-color: white;
+	}
+	#lista_comentarios li{
+		margin-top: 10px;
+	}
+	#cargar_comentarios {
+		background-color: lightsteelblue;
+		font-weight: bolder;
+		border-radius: 5px;
+		border: 1px solid #e0e0e0;
+	}
+	</style>
+</head>
+<body>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="/static/js/bootstrap.bundle.min.js"></script>
+
+	{% include "navbar.html" %}
+	<div class="my-3" style="background-color: rgb(195, 226, 245);">
+	<h1 class="title text-dark">{{data.nombre}} </h1>
+	<h3 class="title text-dark">{{data.categoria}}</h3>
+	</div>
+
+	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: lightgray;">
+	<!-- <p><a href="/static/source page/{{data.pdf}}.pdf"><img class="separar3 rounded-4" src='/static/source page/{{data.img}}.jpg' width='250px' height='350px'></a> -->
+	<a href="{{data.pdf}}"><img class="separar3 rounded-4" src='{{data.img}}'  height='350px'></a>
+		<div style="max-width: 40%;"class="container mx-5">
+			<h6 class="text-dark">Por <a href="/autores/{{data.autor}}">{{data.autor}}</a></h6>
+			<h6 style="overflow-wrap:break-word" class="text-dark">{{data.descripcion}}</h6>
+			<br>
+			<h6 class="text-dark">Has visitado esta pagina: {{data.vistas}} veces</h6>
+			<p class="text-dark">Puntuación: <span id="puntuacion"></span>
+				<script>
+				function handle_response_puntuacion(data){
+					if (!data){
+					alert('Error al cargar puntuación')
+						window.location.href = `http://127.0.0.1:5000/`
+					}else{
+						
+						var texto= data.puntuacion
+						let p = document.getElementById('puntuacion')
+						if (texto != "No tiene puntuacion"){
+							const estrellas=parseInt(texto)
+							texto=""
+							for (let i=0;i<estrellas;i++){
+								texto+= "⭐"
+							}
+						}
+					
+						p.innerText=texto
+						
+					}
+				}
+
+				function obtener_puntuacion(){
+					fetch(`http://127.0.0.1:5000/puntuaciones/`+"{{data.id}}")
+					.then((res)=>res.json())
+					.then(handle_response_puntuacion)
+					.catch((error)=> console.log('ERROR',error))
+				}
+				
+				obtener_puntuacion()
+				</script>
+			</p>
+			<p class="text-dark"><label for="estrellas">¡Valorá este archivo!</label></p>
+			<form onsubmit="puntuar_libro(event)">
+				<input
+				type="range"
+				name="estrellas"
+				id="estrellas"
+				min="1"
+				max="5"
+				step="1"
+				value="3" />
+				<output style="width:101px" class="estrellas-output" for="estrellas"></output>
+				<br>	
+				<button type="submit" id="boton_libro">Enviar puntuación</button>
+			</form>
+			<script>
+				const price = document.querySelector("#estrellas");
+				const output = document.querySelector(".estrellas-output");
+		
+				price.addEventListener("input", function () {
+					output.textContent=""
+					for (let i=0;i<price.value;i++){
+						output.textContent+= "⭐"
+							}
+					});
+		
+			</script>
+
+			<div id="div_fav">
+				<!-- <p>'{{data.favorito}}' </p> -->
+				<a id="add_fav" onclick="agregar_favorito(event)"><img id="imagen_favorito" src="/static/img/add_fav.png" height="35rem"></i></a>
+			</div>
+
+			<script>
+				var fav_bool = `{{data.favorito}}`
+				console.log(fav_bool)
+				var div_fav = document.getElementById('div_fav')
+				console.log(div_fav)			
+				
+				if (fav_bool == "False" ){
+					console.log('es falseee',fav_bool)
+
+				}
+				else if (fav_bool = "True" ){
+					console.log('es trueee', fav_bool)
+					const button_add_fav = document.getElementById('add_fav')
+					const img_fav = document.getElementById('imagen_favorito')
+					img_fav.setAttribute('src','/static/img/added_fav.png')
+
+					//let btn_added_fav =document.createElement('a')
+					//let img_add_fav =document.createElement('img')
+					//img_add_fav.setAttribute('src','/static/img/added_fav.png')
+					//img_add_fav.setAttribute('height','35rem')
+					//btn_added_fav.setAttribute('id','added_fav')
+					//btn_added_fav.setAttribute('onclick','eliminar_favorito(event)')
+					btn_add_fav.setAttribute('onclick','eliminar_favorito(event)')
+
+					
+				}
+				console.log(`{{data.favorito}}`)
+
+				function actualizar_fav_icon(booleano){
+					console.log(booleano)
+					const img = document.getElementById('imagen_favorito')
+					const button = document.getElementById('add_fav')
+					if(booleano){
+						img.setAttribute('src','/static/img/added_fav.png')
+						button.setAttribute('onclick','eliminar_favorito(event)')
+					}else{
+						img.setAttribute('src',"/static/img/add_fav.png")
+						button.setAttribute('onclick','agregar_favorito(event)')
+					}
+				}
+
+			</script>
+		</div>
+
+		<div style="padding:4px;border-radius: 5px; border: 1px solid #e0e0e0;background-color: rgb(207, 207, 207);">
+			<iframe  width="400px" height='350px' src="{{data.pdf}}"></iframe>
+		</div>
+	</div>
+
+	<div class="mt-3 container rounded-2 " >
+		<button class="btn btn-danger" id="eliminar" onclick="eliminar_libro(event)">Eliminar</button>
+		<a href="/editar/{{data.id}}"><button class="btn btn-warning" id="editar">Editar</button></a>
+		<br>
+		<br>
+		
+		<form onsubmit="agregar_comentario(event)">
+			<label class="form-label">Enviar un comentario</label>
+			<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
+			<button type="submit" id="boton_libro">Enviar</button>
+		</form>
+		<br>
+		<button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
+		<img src="" alt="" id="imagen_libro">
+		
+		
+		<ul id='lista_comentarios'></ul>
+	<script>
+
+		function handle_response_agregar_comentario(data){
+			if (!data){
+				alert('Error: no se pudo agregar el comentario')
+				window.location.href = `http://127.0.0.1:5000/`
+			
+			}else{
+				//window.location.href=`http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+				let boton = document.getElementById("cargar_comentarios")
+				boton.click()
+			}
+			
+		}
+
+
+		function agregar_comentario(event){
+			event.preventDefault()
+			const formData = new FormData(event.target)
+			const id_libro = "{{data.id}}"
+			const comentario = formData.get("hola")
+		
+			fetch(`http://127.0.0.1:5000/comentarios/`+id_libro,{
+				method: "POST",
+				headers: {
+					"Content-Type":"application/json"
+				},body:JSON.stringify({
+					id_libro:id_libro,
+					comentarios:comentario
+					})	
+			})
+			.then((res)=>res.json())
+			.then(handle_response_agregar_comentario)
+			.catch((error)=> console.log("ERROR",error))
+		}
+
+
+		function handle_response_valorar_libro(data){
+			if (!data){
+				alert('Error: no se pudo puntuar el libro')
+				window.location.href = `http://127.0.0.1:5000/`
+			}
+			//window.location.href=`http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			obtener_puntuacion()
+			document.getElementsByClassName("estrellas-output")[0].textContent=""
+		}		
+		
+
+		function puntuar_libro(event){
+			event.preventDefault()
+			const formData = new FormData(event.target)
+			const id_libro = "{{data.id}}"
+			const puntuacion = formData.get("estrellas")
+			fetch(`http://127.0.0.1:5000/puntuaciones/`+id_libro, {
+				method: "POST",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					id_libro:id_libro,
+					puntuacion:puntuacion
+					})												
+				})
+			
+			.then((res)=>res.json())
+			.then(handle_response_valorar_libro)
+			.catch((error)=> console.log("ERROR",error))
+		}
+
+		function handle_response_delete(data){
+			if (!data){
+				alert('Error')
+				window.location.href = `http://127.0.0.1:5000/`
+			}
+			window.location.href = `http://127.0.0.1:5000/catalogo`
+			
+
+		}		
+
+		function handle_response(data){
+			if (!data){
+				alert('Error')
+				window.location.href = `http://127.0.0.1:5000/`
+			}else{
+				const ul = document.getElementById('lista_comentarios')
+				ul.replaceChildren([])
+				var comentarios_json = data
+				for (var i = 0; i < data.comentarios.length; i++){
+					/*console.log(data.comentarios[i].comentario)*/
+					const texto = data.comentarios[i].comentario
+					/*console.log(texto)*/
+					const li = document.createElement('li')
+					li.innerHTML=texto
+					ul.appendChild(li)
+				}
+			}
+		}
+		function get_comentarios(event){
+			event.preventDefault()
+			
+			fetch(`http://127.0.0.1:5000/comentarios/`+"{{data.id}}")
+			.then((res)=>res.json())
+			.then(handle_response)
+			.catch((error)=> console.log('ERROR',error))
+		}
+
+		function handle_response_agregar_favorito(data){
+			if (!data){
+				alert('Error agregar_favorito')
+			}
+			//window.location.href = `http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			// alert('Se agrego a favoritos')
+			actualizar_fav_icon(data.libro.favorito)
+		}
+
+		function handle_response_eliminar_favorito(data){
+			if (!data){
+				alert('Error eliminar_favorito')
+			}
+			//window.location.href = `http://127.0.0.1:5000/catalogo/`+"{{data.id}}"
+			// alert('Se elimino de favoritos')
+			actualizar_fav_icon(data.libro.favorito)
+		}
+
+		function eliminar_favorito(event){
+			event.preventDefault()
+			const id_libro = "{{data.id}}"
+			fetch(`http://127.0.0.1:5000/catalogo/favoritos/`+ id_libro, {
+				method: "PUT",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					favorito: false ,
+					})												
+				})
+				.then((res)=>res.json())
+				.then(handle_response_eliminar_favorito)
+				.catch((error)=> console.log("ERROR",error))
+		}
+
+		function agregar_favorito(event){
+			event.preventDefault()
+			const id_libro = "{{data.id}}"
+			fetch(`http://127.0.0.1:5000/catalogo/favoritos/`+ id_libro, {
+				method: "PUT",
+				headers: {
+					"Content-Type":"application/json"
+				},
+					body:JSON.stringify({
+					favorito: true ,
+					})												
+				})
+				.then((res)=>res.json())
+				.then(handle_response_agregar_favorito)
+				.catch((error)=> console.log("ERROR",error))
+			}
+
+		function eliminar_libro(event){
+			event.preventDefault()
+			var confirmacion = confirm('¿Está seguro de borrar el libro?(Será removido de todas las colecciones)')
+			if (confirmacion){
+				fetch(`http://127.0.0.1:5000/catalogo/`+"{{data.id}}", {
+				method: "DELETE"												
+				})
+				.then((res)=>res.json())
+				.then(handle_response_delete)
+				.catch((error)=> console.log('ERROR',error))
+			}
+		}
+	</script>
+
+	</div>
+</body>
+<!-- <footer>
+	<p>Bibliofy 2024</p>
+</footer> -->
+</html>

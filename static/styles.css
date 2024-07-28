@@ -1,0 +1,135 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	background-color: lightgrey;
+}
+.book_type {
+	background-color: transparent;
+	border: none;
+}
+#crear{
+	margin-left: 75em;
+}
+#crear:hover{
+	cursor: pointer;
+}
+
+#comentario{
+	background-color: white;
+	height: 35px;
+	font-weight: bolder;
+}
+#comentario:hover{
+	cursor: pointer;
+}
+.lista_temas{
+	list-style: none;
+	background-color: lightsalmon;
+	font-weight: bolder;	
+}
+.nav-bar{
+	display: inline-block;
+	width: 33%;
+}
+.nav-bar:hover{
+	color: white;
+	cursor: pointer;
+}
+#añadir{
+	color: white;
+	background-color: green;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+}
+#añadir:hover{
+	cursor: pointer;
+}
+#actualizar{
+	background-color: lightcoral;
+	color: white;
+	width: 75px;
+	height: 35px;
+	font-weight: bolder;
+}
+#actualizar:hover{
+	cursor: pointer;
+}
+#describir {
+	height: 80px;
+}
+/* #btn-subir {
+	text-decoration: none;
+	color: grey;
+}
+#btn-subir:hover {
+	color: black;
+} */
+footer {
+	text-align: center;
+	background-color: white;
+	width: 100%;
+	position: relative;
+	bottom: 0;
+}
+
+
+.imagen-info {
+	display: flex;
+	align-items: center;
+	/* background-color: rgb(173, 207, 239); */
+}
+#sector-inferior {
+	margin-left: 2rem;
+	/* background-color: rgb(173, 207, 239); */
+}
+#boton_libro {
+	background-color: blue;
+	color: white;
+	font-weight: bolder;
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #e0e0e0;
+	margin-top: 10px;
+}
+.trash {
+	font-size: large;
+}
+.card{
+	transition: all 0.2s;
+}
+.card:hover{
+	transform:scale(1.15);
+}
+.nav-link {
+	text-align: center;
+}
+#dado{
+	transition:all 0.3s;
+}
+
+#dado:hover{
+	transform:scale(1.4) rotate(720deg);
+	
+}
+#imagen_favorito{
+	transition: all 0.2s;
+}
+
+#imagen_favorito:hover{
+	transform:scale(1.15)
+}
+
+[data-bs-theme="light"]{
+	
+#contenedor_libros {
+	background-color: lightgray;	
+}	
+}
+[data-bs-theme="dark"]{
+
+	#contenedor_libros {
+	background-color: rgb(58, 58, 58);
+}
+}

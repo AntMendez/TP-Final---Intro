@@ -1,0 +1,129 @@
+<nav class=" border navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container container-fluid">
+        <a class="navbar-brand" href="/"><img src="/static/img/logo.png"  alt="Inicio" width="60" height=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link" href="/catalogo">Ver Catálogo</a>
+            </li>
+
+            <li class="nav-item">
+            <a class="nav-link" href="/colecciones">Colecciones</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/catalogo/favoritos">Favoritos</a>
+            </li>
+
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tipos
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/libros">Libros</a></li>
+                <li><a class="dropdown-item" href="/apuntes">Apuntes</a></li>
+                <li><a class="dropdown-item" href="/examenes">Exámenes</a></li>
+            </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/catalogo/random"  type="submit"><img id="dado" src="/static/img/libro_misterioso.png"  width="40px" ></a>
+            </li>
+
+
+            <li class="nav-item" style="margin-left: 150px;">
+                <form autocomplete="off" onsubmit="buscar(event)"class="d-flex" role="search">
+                    <input autocomplete="false" list="resultados" class="form-control me-2" name="busqueda" id="busqueda" type="search" placeholder="Busca algo..." aria-label="Search" onkeydown="buscar_5(event)">
+                    <datalist id="resultados"></datalist>
+                    <button style="background-color: lightskyblue;" type="submit">Buscar</button>
+                  </form>
+                </li>
+            </ul>
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+            const htmlElement = document.documentElement;
+            const switchElement = document.getElementById('darkModeSwitch');
+
+            const currentTheme = localStorage.getItem('bsTheme') || 'dark';
+            htmlElement.setAttribute('data-bs-theme', currentTheme);
+            switchElement.checked = currentTheme === 'dark';
+            if(currentTheme === 'dark'){document.getElementById("darkModeSwitchLabel").innerText="Modo oscuro"}else{document.getElementById("darkModeSwitchLabel").innerText="Modo claro"}
+            
+
+            switchElement.addEventListener('change', function () {
+                if (this.checked) {
+                    htmlElement.setAttribute('data-bs-theme', 'dark');
+                    localStorage.setItem('bsTheme', 'dark');
+                    document.getElementById("darkModeSwitchLabel").innerText="Modo oscuro"
+
+                } else {
+                    htmlElement.setAttribute('data-bs-theme', 'light');
+                    localStorage.setItem('bsTheme', 'light');
+                    document.getElementById("darkModeSwitchLabel").innerText="Modo claro"
+                    }
+                });
+            });
+        </script>
+        
+        <script>
+            const input_barra = document.querySelector("input");
+            const log = document.getElementById("busqueda");
+
+            input_barra.addEventListener("input", updateValue);
+
+            function updateValue(e) {
+                log.textContent = e.target.value;
+                buscar_5(log.textContent)
+            }
+
+            function handle_response_buscar(data){
+                if (!data){
+				    alert("Error al intentar buscar")
+                    return
+                }
+                const resultados = document.getElementById("resultados")
+                resultados.replaceChildren([])
+                for (const resultado in data.libros){
+                    const opcion= document.createElement('option')
+                    opcion.innerText=data.libros[resultado].nombre
+                    resultados.appendChild(opcion)
+                }
+            }
+
+            function buscar_5(busqueda){
+               if (!busqueda){return}
+                fetch(`http://127.0.0.1:5000/catalogo/filtrar_5/`+busqueda)
+                .then((res)=> res.json())
+                .then(handle_response_buscar)
+                .catch((error)=> console.log("ERROR",error))
+            }
+
+            function buscar(event){
+                event.preventDefault()
+                const formData = new FormData(event.target)
+                const busqueda = formData.get("busqueda")
+                window.location.href=`http://127.0.0.1:5000/catalogo/filtrar/`+busqueda
+                /*
+                fetch(`http://127.0.0.1:5000/catalogo/filtrar/`+busqueda)
+                .then((res)=> res.json())
+                .then(handle_response_buscar)
+                .catch((error)=> console.log("ERROR",error))
+                */
+            }
+        </script>
+        <div style="margin:10px"> 
+            <form class="d-flex" role="search">
+                <a style="text-decoration: none" class="btn-outline-success" id="btn-subir" type="submit" href="/publicar" ><b>Subir archivo</b> </a> </button>
+            </form>
+        </div>
+        <div class="form-check form-switch" style="margin:10px">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch" checked>
+            <label class="form-check-label" id="darkModeSwitchLabel" for="darkModeSwitch"></label>
+        </div>
+           
+
+        </div>
+    </div>
+</nav>
