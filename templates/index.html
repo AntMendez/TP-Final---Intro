@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="es" data-bs-theme="light">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,13 +38,53 @@
 	{% include "navbar.html" %}	
 	<!-- <a href="/static/source page/pdf-1.pdf"><img src="/static/source page/img-1.webp" height="200px"></a> -->
 
-	<div class="container mt-4">
+	<div class="container mt-4" >
 		<h1 style="font-size: 5rem;" class="title mt-2">Bienvenidos a <span style="color: red; font-style: italic; ">Bibliofy</span> </h1>
 		<h2 style="font-size: 3rem;" class="text-center" >Acá vas a encontrar libros, apuntes y exámenes</h2>
 		<div class="container   p-4 bg-body-terfont-style: tiary rounded-3">
-			<h3></h3>
-			
-			<h4 class="" >Recientes</h4>
+	<!-- carousel-->
+			<div >
+				<div id="carouselExample" class="carousel slide" data-bs-ride="carousel"  >
+					<div class="carousel-inner" >
+						
+						{% for d in data %}
+							{% if loop.index == 1 %}
+								<div class="carousel-item active" > 
+							{% else %}	
+								</div>
+								<div class="carousel-item">
+							{% endif %}
+							<a href="/catalogo/{{d.id}}" >
+								<div class="card" style="padding:10px;">
+									<div style="display:flex;justify-content: center;align-items: center;">
+										<img src="{{d.img}}" style="height:360px;width:240px;padding:10px;">
+										<div>
+											<h1 style="font-size:3 em;">{{d.nombre}} </h1>
+											<h5>Por {{d.autor}}</h5>
+											<h6>{{d.descripcion}}</h6>
+										</div>
+									</div>
+								</div>
+							</a>
+							
+						{% endfor %}
+						</div>	
+					</div>
+					
+					<button style="background-color: gray;flood-opacity: 1;border-radius: 10px;margin:5px;width:10%;" class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button style="background-color: gray;flood-opacity: 1;border-radius: 10px;margin:5px;width:10%;" class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div>
+		<!-- fin carousel-->
+		
+
+			<h4 class="" >Agregados Recientemente</h4>
 			<div class="row g-4">
 			{% for d in data %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
@@ -56,10 +96,7 @@
 					</div></a>
 				</div>
 			{% endfor %}
-			</div> 
-
-
-		</div> 
+			</div> </div> 
 	</div>
 
 

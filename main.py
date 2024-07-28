@@ -319,7 +319,7 @@ def borrar_libro(id_libro):
 def hello_world():
     try:
         libros_data=[]
-        libros=Libro.query.all()
+        libros=Libro.query.order_by(Libro.id.desc()).limit(10)
         for libro in libros:
             libro_data ={
                 'id': libro.id,
@@ -331,7 +331,7 @@ def hello_world():
                 'categoria': libro.categoria
             }
             libros_data.append(libro_data)
-        return render_template('index.html',data=libros_data[::-1])
+        return render_template('index.html',data=libros_data)
     except Exception as error:
         print('Error en el /', error)
         return jsonify({'message': 'Internal server error'}), 500
