@@ -26,7 +26,7 @@
 	}
 	.form-control {
 			border-radius: 5px;
-			border: 1px solid #e0e0e0;
+			border: 3px solid #363636;
 	}
 	.form-label {
 		font-weight: bolder;
@@ -38,17 +38,17 @@
 	#lista_comentarios li{
 		margin-top: 10px;
 	}
-	#cargar_comentarios {
+	/* #cargar_comentarios {
 		background-color: lightsteelblue;
 		font-weight: bolder;
 		border-radius: 5px;
 		border: 1px solid #e0e0e0;
-	}
+	} */
 	</style>
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<script src="/static/js/bootstrap.bundle.min.js"></script>
+	<!-- <script src="/static/js/bootstrap.bundle.min.js"></script> -->
 
 	{% include "navbar.html" %}
 	<div class="my-3" style="background-color: rgb(195, 226, 245);">
@@ -56,7 +56,7 @@
 	<h3 class="title text-dark">{{data.categoria}}</h3>
 	</div>
 
-	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: lightgray;">
+	<div class="separar3 container p-3 rounded-4 imagen-info" style="background-color: rgb(239, 239, 239);">
 	<!-- <p><a href="/static/source page/{{data.pdf}}.pdf"><img class="separar3 rounded-4" src='/static/source page/{{data.img}}.jpg' width='250px' height='350px'></a> -->
 	<a href="{{data.pdf}}"><img class="separar3 rounded-4" src='{{data.img}}'  height='350px'></a>
 		<div style="max-width: 40%;"class="container mx-5">
@@ -109,7 +109,7 @@
 				value="3" />
 				<output style="width:101px" class="estrellas-output" for="estrellas"></output>
 				<br>	
-				<button type="submit" id="boton_libro">Enviar puntuación</button>
+				<button class="btn btn-primary my-2" type="submit" id="boton_libro">Enviar puntuación</button>
 			</form>
 			<script>
 				const price = document.querySelector("#estrellas");
@@ -185,12 +185,12 @@
 		<br>
 		
 		<form onsubmit="agregar_comentario(event)">
-			<label class="form-label">Enviar un comentario</label>
+			<label class="form-label"><h3>Enviar un comentario</h3> </label>
 			<input type="text" class="form-control" id="dejar_comentario" name="hola" required>
-			<button type="submit" id="boton_libro">Enviar</button>
+			<button class="btn btn-primary mt-2" style="font-size: larger; font-weight: bold;" type="submit" id="boton_libro">Enviar</button>
 		</form>
 		<br>
-		<button id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios</button>
+		<button class="btn btn-warning mt-2" style="font-size: larger; font-weight: bold;" id="cargar_comentarios"onclick="get_comentarios(event)">Cargar comentarios </button>
 		<img src="" alt="" id="imagen_libro">
 		
 		

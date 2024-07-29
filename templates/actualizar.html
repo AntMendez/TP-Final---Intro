@@ -43,7 +43,7 @@
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<script src="/static/js/bootstrap.bundle.min.js"></script>
+	<!-- <script src="/static/js/bootstrap.bundle.min.js"></script> -->
 	
 	{% include "navbar.html" %}
 	
@@ -127,6 +127,9 @@
 			const nombre = formData.get('nombre')
 			const autor = formData.get('autor')
 			const pdf = formData.get('pdf')
+			if (!pdf.includes(".pdf")){
+				alert("pdf invalido")
+				return}
 			const img = formData.get('img')
 			const descripcion = formData.get('descripcion')
 			const categoria = formData.get('categoria')
