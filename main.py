@@ -530,7 +530,7 @@ def get_todos_libros():
 @app.route('/catalogo')#/libros/<categoria> o /<categoria> ---> categoria = libros 
 def get_libros():
     try:
-        libros = Libro.query.all()
+        libros = Libro.query.order_by(Libro.nombre.asc()).all()
         libros_data = []
         for libro in libros:
             libro_data = { 
@@ -546,6 +546,7 @@ def get_libros():
             }
             libros_data.append(libro_data)
         return render_template('libros.html', data=libros_data)
+        # return jsonify({'libros':libros_data}), 200
 
     except Exception as error:
         print('Error', error)
