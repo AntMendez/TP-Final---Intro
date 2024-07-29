@@ -13,12 +13,12 @@
 			font-weight: bolder;
 			background-color: lightskyblue;
 		}
-    [data-bs-theme='light']{
+    /* [data-bs-theme='light']{
       body {
       min-height: 100%;
       min-width: 100%;
-      background-color: lightgray;}
-    }
+      background-color: rgb(231, 231, 231);}
+    } */
   </style>
 </head>
 <body>
@@ -27,7 +27,7 @@
 
   {% include "navbar.html" %}
 
-  <div class="container  mt-5">
+  <div class="container mt-5">
       <h1 class="title text-center text-dark">COLECCIONES</h1>
       
       <!-- Button trigger modal -->
@@ -226,7 +226,7 @@
 
     <ul class="list-group" id="colecciones">
        {% for d in data %}
-        <div>
+        <div class=" mb-3" >
             <li class="list-group-item my-2" > <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="colecciones/{{d.nombre}}">{{d.nombre}}</a></li>
             <button onclick="modal_coleccion_agregar('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2">Agregar archivo</button>
             <button onclick="modal_coleccion_remover('{{d.nombre}}')"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal3">Remover archivo</button>
