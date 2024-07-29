@@ -27,13 +27,33 @@
 			text-align: right;
 			margin-right: 10px;
 		}
+		.img_tipos{
+			border-radius: 30px;
+			box-shadow: rgba(79, 79, 150, 0.586) 0px 50px 100px -20px, rgba(146, 146, 146, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;;
+			width: 470px;
+		}
+
+		[data-bs-theme="dark"]{
+			.img_tipos{
+			border-radius: 30px;
+			box-shadow: rgba(115, 115, 115, 0.25) 0px 50px 100px -20px, rgba(61, 61, 61, 0.3) 0px 30px 60px -30px, rgba(123, 123, 123, 0.35) 0px -2px 6px 0px inset;;
+			width: 470px;
+		}
+		}
+		
+		.img_tipos{
+			transition: all 0.3s;	
+		}
+		.img_tipos:hover{
+			transform: scale(1.1);	
+		}
 
 	</style>
 </head>
 
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<script src="/static/js/bootstrap.bundle.min.js"></script>
+	<!-- <script src="/static/js/bootstrap.bundle.min.js"></script> -->
 
 	{% include "navbar.html" %}	
 	<!-- <a href="/static/source page/pdf-1.pdf"><img src="/static/source page/img-1.webp" height="200px"></a> -->
@@ -41,9 +61,26 @@
 	<div class="container mt-4" >
 		<h1 style="font-size: 5rem;" class="title mt-2">Bienvenidos a <span style="color: red; font-style: italic; ">Bibliofy</span> </h1>
 		<h2 style="font-size: 3rem;" class="text-center" >Acá vas a encontrar libros, apuntes y exámenes</h2>
-		<div class="container   p-4 bg-body-terfont-style: tiary rounded-3">
+		
+	</div>
+
+	<div class="my-5 mx-5 text-center">
+		<div class="row align-items-center">
+		  <div id="div_tipos" class="col">
+			<a href="/libros"><img class="img_tipos" src="/static/img/libros.png" alt=""></a>
+		  </div>
+		  
+		  <div class="col">
+			<a href="/examenes"><img class="img_tipos" src="/static/img/examenes.png" alt=""></a>
+		  </div>
+		  <div class="col">
+			<a href="/apuntes"><img class="img_tipos" src="/static/img/apuntes.png" alt=""></a>
+		  </div>
+		</div>
+	  </div>
+
 	<!-- carousel-->
-			<div >
+			<div class="container">
 				<div id="carouselExample" class="carousel slide" data-bs-ride="carousel"  >
 					<div class="carousel-inner" >
 						
@@ -81,39 +118,41 @@
 					</button>
 				</div>
 			</div>
-		<!-- fin carousel-->
-		
-			<br>
+	<!-- fin carousel-->
+		<div class="container p-4">
 			<h4 class="" >Agregados recientemente</h4>
 			<div class="row g-4">
 			{% for d in data[0] %}
 				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
-					<a href="/catalogo/{{d.id}}"><div class="card" style="height: auto; display: flex; justify-content: center;">
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" width="100%"></li>
-							<li class="list-group-item"><a href="/catalogo/{{d.id}}" class="card-link">Más info...</a></li>
+					<a href="/catalogo/{{d.id}}"><div class="card border rounded-4" style="height: auto; display: flex; justify-content: center;">
+						<ul class="list-group list-group-flush border rounded-4">
+							<li class="list-group-item border rounded-top-4"><img src="{{d.img}}" class=" mt-2 text-center card-img-left rounded-3" height="200px"></li>
+							<li class="list-group-item"><a href="/catalogo/{{d.id}}" class="card-link">Ir al libro...</a></li>
 						  </ul>
 					</div></a>
 				</div>
 			{% endfor %}
 			</div> 
-			<br>
-			<h4 class="" >Más visualizados</h4>
+		</div>
+		<div class="container border rounded-4 mb-5 p-4 bg-danger-subtle">
+			<h2 class="text-danger" >Más visualizados</h2>
 			<div class="row g-4">
 			{% for d in data[1] %}
-				<div class="col-6 col-md-4 col-lg-4 col-xl-2">
-					<a href="/catalogo/{{d.id}}"><div class="card" style="height: auto; display: flex; justify-content: center;">
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" width="100%"></li>
-							<li class="list-group-item">Vistas: {{d.vistas}}</li>
-						  </ul>
-					</div></a>
-				</div>
+				{% if loop.index <= 8 %}
+					<div class="col">
+						<a href="/catalogo/{{d.id}}"><div class="card"  style="width: 18rem;">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item"><img src="{{d.img}}" class=" mt-2 text-center card-img-left" height="200px" ></li>
+								<li class="list-group-item"><h5>Vistas: {{d.vistas}}</h5> </li>
+							</ul>
+						</div></a>
+					</div>
+				{% endif %}
 			{% endfor %}
 			</div> 
 		</div> 
 	</div>
-
+	
 
 	<!-- <script type="text/javascript" src="scripts.js"></script> -->
 </body>
